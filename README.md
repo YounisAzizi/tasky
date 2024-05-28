@@ -51,14 +51,14 @@ This Flutter project is a comprehensive Todo application that includes robust au
 
    - Flutter SDK
    - Dart SDK
-   - A code editor (e.g., Visual Studio Code, IntelliJ IDEA)
+   - A code editor (e.g., Android Studio, Visual Studio Code, IntelliJ IDEA)
 
 ### Installation
 
    - Clone the repository:
      ```sh
-     git clone https://github.com/your-repository/flutter-todo-app.git
-     cd flutter-todo-app
+     git clone https://github.com/YounisAzizi/tasky.git
+     cd tasky
      ```
    - Install dependencies:
      ```sh
