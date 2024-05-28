@@ -1,4 +1,5 @@
 import 'package:Tasky/core/res/image_res.dart';
+import 'package:Tasky/domain/riverpod/password_bool_riv.dart';
 import 'package:Tasky/routes/routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import '../../domain/riverpod/sign_in_riv.dart';
 import '../../services/auth_services.dart';
 import '../../theme/colors.dart';
 import '../widget/custom_elevated_button.dart';
-import '../widget/splash_wrapper_widget.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -72,20 +72,27 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 initialCountryCode: 'EG', // Set the initial country code
                 onChanged: (phone) {
                   print(phone.completeNumber);
-                  ref.read(completeNumberProvider.notifier).state = phone.completeNumber;
+                  ref.read(appDataProvider.notifier).setCompleteNumber(
+                      phone.completeNumber);
                   // Get the complete phone number
                 },
               ),
                     const SizedBox(height: 15,),
                      TextField(
+                       obscureText:ref.watch(passwordBoolProvider).beSecure ,
                        controller: _passwordController,
                       decoration: InputDecoration(
-                        labelText: 'Password...',
-                        suffixIcon: IconButton(onPressed:(){},
+                        labelText: 'Password',
+                        suffixIcon: IconButton(onPressed:(){
+                          ref.read(passwordBoolProvider).toggleSecure();
+                        },
                             style: ButtonStyle(
                               iconColor:WidgetStateProperty.all(Colors.grey),
                             ),
-                            icon: const Icon(Icons.visibility_outlined))
+                            icon:  Icon(
+                                !ref.watch(passwordBoolProvider).beSecure?
+                                    Icons.visibility_off_outlined:
+                                Icons.visibility_outlined))
                       ),
 
                       ),
@@ -94,13 +101,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       onPressed: ()async {
                         if(_phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
                           await authServices.signIn(
-                              phone: ref.watch(completeNumberProvider),
+                              phone: ref.watch(appDataProvider).completeNumber,
                               password: _passwordController.text,
                               context: context,
                             ref: ref
-                          ).whenComplete(() {
-                            ref.read(isUserLoggedInProvider.notifier).state =true;
-                          },);
+                          );
                         }else{
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('fill the textFields'))

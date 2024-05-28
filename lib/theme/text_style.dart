@@ -36,6 +36,11 @@ class Styles {
       fontWeight: FontWeight.bold,
       overflow:TextOverflow.ellipsis,
       fontSize: 20);
+  static const mainTitleStyle = TextStyle(
+      color: AppColors.backgroundDark,
+      fontWeight: FontWeight.bold,
+      overflow:TextOverflow.ellipsis,
+      fontSize: 25);
   static const profileSubTitle = TextStyle(
       color: AppColors.evaluationTextLight,
       fontWeight: FontWeight.bold,

@@ -26,7 +26,7 @@ class CustomTabBarWidget extends StatelessWidget {
           child: Text(
             data,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 14,
               color: isSelected ? Colors.white : Colors.grey,
             ),
           ),

@@ -11,6 +11,7 @@ import 'package:Tasky/theme/text_style.dart';
 
 import '../../core/res/image_res.dart';
 import '../../core/utils/utils.dart';
+import '../../domain/riverpod/password_bool_riv.dart';
 import '../../domain/riverpod/sign_in_riv.dart';
 import '../../theme/colors.dart';
 import '../widget/custom_elevated_button.dart';
@@ -65,7 +66,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                      TextField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                          labelText: 'Name...',
+                          labelText: 'Name',
                           ),
                     ),
                     const SizedBox(height: 20,),
@@ -79,10 +80,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             fontSize: 12
                         ),
                       ),
-                      initialCountryCode: 'EG', // Set the initial country code
+                      initialCountryCode: 'EG',
                       onChanged: (phone) {
-                        print(phone.completeNumber); // Get the complete phone number
-                        ref.read(completeNumberProvider.notifier).state = phone.completeNumber;
+                        print(phone.completeNumber);
+                        ref.read(appDataProvider.notifier).setCompleteNumber(phone.completeNumber) ;
                       },
                     ),
                     const SizedBox(height: 15,),
@@ -90,7 +91,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                        keyboardType: TextInputType.phone,
                       controller: _yearOfExController,
                       decoration: InputDecoration(
-                          labelText: 'Years of experience...',
+                          labelText: 'Years of experience',
                          ),
                     ),
                     const SizedBox(height: 20,),
@@ -99,19 +100,26 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                      TextField(
                       controller: _addressController,
                       decoration: InputDecoration(
-                        labelText: 'Address...',
+                        labelText: 'Address',
                       ),
                     ),
                     const SizedBox(height: 20,),
                     TextField(
+                      obscureText: ref.watch(passwordBoolProvider).beSecure,
                       controller: _passwordController,
                       decoration: InputDecoration(
-                          labelText: 'Password...',
-                          suffixIcon: IconButton(onPressed:(){},
+                          labelText: 'Password',
+                          suffixIcon: IconButton(onPressed:(){
+                            ref.read(passwordBoolProvider).toggleSecure();
+
+                          },
                               style: ButtonStyle(
                                 iconColor:WidgetStateProperty.all(Colors.grey),
                               ),
-                              icon: const Icon(Icons.visibility_outlined))
+                              icon:  Icon(
+                                  !ref.watch(passwordBoolProvider).beSecure?
+                                  Icons.visibility_off_outlined:
+                                  Icons.visibility_outlined))
                       ),
 
                     ),
@@ -128,9 +136,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                              _addressController.text,
                              displayName: _nameController.text,
                              experienceYears: experienceYears!,
-                             level: '${ref.watch(selectedLevelProvider)}',
+                             level: '${ref.watch(levelManagerNotifierProvider).selectedLevel}',
                          phone:
-                         ref.watch(completeNumberProvider),
+                         ref.watch(appDataProvider).completeNumber,
                          context: context,
                          ref: ref
                          ).then((_) {

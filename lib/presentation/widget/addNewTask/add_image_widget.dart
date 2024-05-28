@@ -1,14 +1,16 @@
-import 'package:Tasky/services/image_upload_service.dart';
+import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:Tasky/theme/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../../domain/riverpod/pick_image_riv.dart';
 import '../../../domain/riverpod/todos_riv.dart';
 
 class AddImageWidget extends ConsumerStatefulWidget {
-  const AddImageWidget({super.key, required this.index});
+  const AddImageWidget({super.key,required this.index});
   final int index;
 
   @override
@@ -19,10 +21,9 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
   @override
   Widget build(BuildContext context) {
     final todoDetails = ref.watch(todosProvider);
-    ImageUploadService uploadService = ImageUploadService();
     return InkWell(
       onTap: () {
-        uploadService.pickAndUploadImage(context);
+        ref.read(pickImageProvider).pickImage(ImageSource.gallery);
       },
       child: DottedBorder(
         dashPattern: const [3, 1],
@@ -36,10 +37,12 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if(ref.watch(isTodoEditingProvider).isEditing)
             ClipRRect(
               borderRadius:BorderRadius.circular(30) ,
               child: CachedNetworkImage(
-                imageUrl: todoDetails[widget.index]['image'],
+                width: 100,
+                imageUrl: todoDetails.todos[widget.index]['image'],
                 placeholder: (context, url) => Center(
                     child: SizedBox(
                       height: 13,
@@ -53,6 +56,7 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
                 errorWidget: (context, url, error) => Image.asset('assets/shopping_icon.png'),
               ),
             ),
+            SizedBox(width: 5,),
             Icon(Icons.add_photo_alternate_outlined,size: 28,color: Colors.deepPurple,),
             SizedBox(width: 5,),
             Text('Add Img',

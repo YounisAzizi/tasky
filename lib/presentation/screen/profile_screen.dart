@@ -23,7 +23,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = ref.watch(userDataProvider);
+    final userData = ref.watch(userDataProvider).userData;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),

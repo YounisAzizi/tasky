@@ -26,13 +26,14 @@ class _ExperienceLevelDropDownWidgetState extends ConsumerState<ExperienceLevelD
         underline: SizedBox(),
         padding: EdgeInsets.only(left: 20),
         hint: const Text('Choose experience level'),
-        value: ref.watch(selectedLevelProvider),
+        value: ref.watch(levelManagerNotifierProvider).selectedLevel,
         onChanged: (String? newValue) {
 
-            ref.read(selectedLevelProvider.notifier).state = newValue;
-            print(ref.watch(selectedLevelProvider));
+            ref.read(levelManagerNotifierProvider.notifier).setLevel(newValue);
+            print(ref.watch(levelManagerNotifierProvider));
         },
-        items: ref.watch(levelsProvider).map<DropdownMenuItem<String>>((String level) {
+        items: ref.watch(levelManagerNotifierProvider).levels
+            .map<DropdownMenuItem<String>>((String level) {
           return DropdownMenuItem<String>(
             value: level,
             child: Padding(

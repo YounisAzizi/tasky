@@ -1,6 +1,9 @@
 import 'package:Tasky/core/res/image_res.dart';
+import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
+import 'package:Tasky/domain/riverpod/sign_in_riv.dart';
 import 'package:Tasky/presentation/widget/qr_code_widget.dart';
 import 'package:Tasky/routes/routes.dart';
+import 'package:Tasky/services/auth_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:Tasky/presentation/widget/task_details_widget.dart';
@@ -33,8 +36,8 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final todoDetails = ref.watch(todosProvider);
-    final isEditing = true;
+    final todoDetails = ref.watch(todosProvider).todos;
+    AuthServices authServices = AuthServices();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -85,6 +88,7 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                           onTap: () {
                             context.go('${Routes.addNewTaskScreen}${widget.index}');
                             context.go('${Routes.addNewTaskScreen.replaceFirst(':index', '${widget.index}')}');
+                            ref.read(isTodoEditingProvider).setEditing(true);
 
                           },
                           value: 'edit',
@@ -93,7 +97,10 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                             style: TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ),
-                        const PopupMenuItem(
+                         PopupMenuItem(
+                          onTap: ()async {
+                          await  authServices.deleteTodo(todoDetails[widget.index]['_id'], ref.watch(appDataProvider).storeToken,context,ref,widget.index);
+                          },
                           value: 'delete',
                           child: Text(
                             'Delete',
@@ -111,6 +118,7 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                 ],
               ),
             ),
+            widget.index < todoDetails.length &&  todoDetails[widget.index]['image'] != null && todoDetails[widget.index]['image'] != ''?
             CachedNetworkImage(
               imageUrl: todoDetails[widget.index]['image'],
               placeholder: (context, url) => Center(
@@ -124,7 +132,8 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                 ),
               )),
               errorWidget: (context, url, error) => Image.asset('assets/shopping_icon.png'),
-            ),
+            )
+            :Image.asset(ImageRes.shoppingIcon),
             const SizedBox(
               height: 20,
             ),

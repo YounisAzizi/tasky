@@ -1,4 +1,5 @@
 import 'package:Tasky/domain/riverpod/date_picker_riv.dart';
+import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,11 +17,16 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
   final TextEditingController _controller = TextEditingController();
 @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _controller.text = ref.watch(todosProvider)[widget.index]['createdAt'];
-    },);
+      if(ref.watch(isTodoEditingProvider).isEditing) {
+        _controller.text = ref
+            .watch(todosProvider)
+            .todos[widget.index]['createdAt'];
+        ref.read(selectedDateProvider).setDate(DateTime.parse(ref
+            .watch(todosProvider)
+            .todos[widget.index]['createdAt']));
+      }},);
   }
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text('${ref.watch(selectedDateProvider).day}/${ref.watch(selectedDateProvider).month}/${ref.watch(selectedDateProvider).year}',
+                  child: Text('${ref.watch(selectedDateProvider).selectedDate}',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -71,7 +77,7 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
     if (picked != null && picked != ref.watch(selectedDateProvider)) {
 
       ref.read(selectedDateProvider.notifier).setDate(picked);
-        _controller.text = '${ref.watch(selectedDateProvider).day}/${ref.watch(selectedDateProvider).month}/${ref.watch(selectedDateProvider).year}';
+        _controller.text = '${ref.watch(selectedDateProvider).selectedDate}';
     }
   }
 }

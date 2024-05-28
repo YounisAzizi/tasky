@@ -11,6 +11,7 @@ class QRCodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return QrImageView(
       data: id,
+
       version: QrVersions.auto,
       size: Utils.screenWidth(context),
     );

@@ -1,13 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final selectedDateProvider = StateNotifierProvider<SelectedDateNotifier, DateTime>((ref) {
-  return SelectedDateNotifier(DateTime.now());
-});
 
-class SelectedDateNotifier extends StateNotifier<DateTime> {
-  SelectedDateNotifier(DateTime state) : super(state);
+class SelectedDateNotifier extends ChangeNotifier {
+  DateTime _selectedDate;
+
+  SelectedDateNotifier(this._selectedDate);
+
+  DateTime get selectedDate => _selectedDate;
 
   void setDate(DateTime date) {
-    state = date;
+    _selectedDate = date;
+    notifyListeners();
   }
 }
+
+final selectedDateProvider = ChangeNotifierProvider<SelectedDateNotifier>((ref) {
+  return SelectedDateNotifier(DateTime.now());
+});

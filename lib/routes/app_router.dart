@@ -45,13 +45,15 @@ class AppRouter {
           }),
       //addNewTaskScreen
       GoRoute(
-          path: Routes.addNewTaskScreen,
-          builder: (context, state) {
-            final index = int.parse(state.pathParameters["index"]!);
-            return  AddNewTaskScreen(
-              index: index,
-            );
-          }),
+        path: Routes.addNewTaskScreen,
+        builder: (context, state) {
+          final index = int.parse(state.pathParameters["index"]!);
+          return AddNewTaskScreen(
+            index: index,
+          );
+        },
+      ),
+
       //profileScreen
       GoRoute(
           path: Routes.profileScreen,

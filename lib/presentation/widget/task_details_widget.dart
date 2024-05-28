@@ -16,7 +16,7 @@ class TaskDetailsWidget extends ConsumerStatefulWidget {
 class _TaskDetailsWidgetState extends ConsumerState<TaskDetailsWidget> {
   @override
   Widget build(BuildContext context) {
-    final todoDetails = ref.watch(todosProvider);
+    final todoDetails = ref.watch(todosProvider).todos;
     return  Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
