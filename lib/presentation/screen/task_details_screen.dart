@@ -1,4 +1,5 @@
 import 'package:Tasky/core/res/image_res.dart';
+import 'package:Tasky/core/utils/utils.dart';
 import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
 import 'package:Tasky/domain/riverpod/sign_in_riv.dart';
 import 'package:Tasky/presentation/widget/qr_code_widget.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/riverpod/todos_riv.dart';
+import '../../theme/colors.dart';
 
 class TaskDetailsScreen extends ConsumerStatefulWidget {
   const TaskDetailsScreen({super.key, required this.index});
@@ -25,7 +27,6 @@ class TaskDetailsScreen extends ConsumerStatefulWidget {
 class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
@@ -41,129 +42,158 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 22.0, left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        context.go(Routes.mainScreen);
-                      },
-                      icon: Row(
-                        children: [
-                          SvgPicture.asset(
-                            ImageRes.backButton,
-                            height: 30,
-                            width: 30,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'Task Details',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      )),
-                  PopupMenuButton<String>(
-                    color: Colors.white,
-                    onSelected: (value) {
-                      // Handle the selected value
-                      if (value == 'edit') {
-                        // Edit action
-                        print('Edit selected');
-                      } else if (value == 'delete') {
-                        // Delete action
-                        print('Delete selected');
-                      }
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return [
-                         PopupMenuItem(
-                          onTap: () {
-                            context.go('${Routes.addNewTaskScreen}${widget.index}');
-                            context.go('${Routes.addNewTaskScreen.replaceFirst(':index', '${widget.index}')}');
-                            ref.read(isTodoEditingProvider).setEditing(true);
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 42.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          context.go(Routes.mainScreen);
+                        },
+                        icon: Row(
+                          children: [
+                            SvgPicture.asset(
+                              ImageRes.backButton,
+                              height: 24,
+                              width: 24,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Task Details',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                            )
+                          ],
+                        )),
+                    PopupMenuButton<String>(
+                     shape: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(12),
+                       borderSide: BorderSide(
+                         color: Colors.white
+                       )
+                     ),
+                      padding: EdgeInsets.symmetric(horizontal: 5),
 
-                          },
-                          value: 'edit',
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(fontWeight: FontWeight.w500),
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      onSelected: (value) {
+                        // Handle the selected value
+                        if (value == 'edit') {
+                          // Edit action
+                          print('Edit selected');
+                        } else if (value == 'delete') {
+                          // Delete action
+                          print('Delete selected');
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return [
+                           PopupMenuItem(
+                            onTap: () {
+                              context.go('${Routes.addNewTaskScreen}${widget.index}');
+                              context.go('${Routes.addNewTaskScreen.replaceFirst(':index', '${widget.index}')}');
+                              ref.read(isTodoEditingProvider).setEditing(true);
+
+                            },
+                            value: 'edit',
+                            child: Text(
+                              'Edit',
+                              style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),
+                            ),
                           ),
-                        ),
-                         PopupMenuItem(
-                          onTap: ()async {
-                          await  authServices.deleteTodo(todoDetails[widget.index]['_id'], ref.watch(appDataProvider).storeToken,context,ref,widget.index);
-                          },
-                          value: 'delete',
-                          child: Text(
-                            'Delete',
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.w500),
+                          PopupMenuDivider(
+                            height: 1,
                           ),
-                        ),
-                      ];
-                    },
-                    icon: const Icon(
-                      Icons.more_vert,
-                      color: Colors.black,
+                           PopupMenuItem(
+                            onTap: ()async {
+                            await  authServices.deleteTodo(todoDetails[widget.index]['_id'], ref.watch(appDataProvider).storeToken,context,ref,widget.index);
+                            },
+                            value: 'delete',
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 125, 83, 1), fontWeight: FontWeight.w500,fontSize: 16),
+                            ),
+                          ),
+                        ];
+                      },
+                      icon: const Icon(
+                        Icons.more_vert,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            widget.index < todoDetails.length &&  todoDetails[widget.index]['image'] != null && todoDetails[widget.index]['image'] != ''?
-            CachedNetworkImage(
-              imageUrl: todoDetails[widget.index]['image'],
-              placeholder: (context, url) => Center(
-                  child: SizedBox(
-                height: 13,
-                width: 13,
-                child: CircularProgressIndicator(
-                  color: Colors.deepPurple,
-                  strokeWidth: 1,
-                  strokeAlign: 5,
+                  ],
                 ),
-              )),
-              errorWidget: (context, url, error) => Image.asset('assets/shopping_icon.png'),
-            )
-            :Image.asset(ImageRes.shoppingIcon),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    todoDetails[widget.index]['title'],
-                    style: Styles.titleStyle,
-                  ),
-                  Text(
-                    textAlign: TextAlign.start,
-                    todoDetails[widget.index]['desc'],
-                    style: Styles.fadeTextStyle,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                   TaskDetailsWidget(index: widget.index,),
-                  QRCodeWidget(id: todoDetails[widget.index]['_id']),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
               ),
-            )
-          ],
+              SizedBox(height: 30,),
+              widget.index < todoDetails.length &&  todoDetails[widget.index]['image'] != null && todoDetails[widget.index]['image'] != ''?
+              CachedNetworkImage(
+                height: 225,
+                width: Utils.screenWidth(context),
+                imageUrl: todoDetails[widget.index]['image'],
+                placeholder: (context, url) => Center(
+                    child: SizedBox(
+                  height: 13,
+                  width: 13,
+                  child: CircularProgressIndicator(
+                    color: AppColors.mainThemColor,
+                    strokeWidth: 1,
+                    strokeAlign: 5,
+                  ),
+                )),
+                errorWidget: (context, url, error) => Image.asset('assets/shopping_icon.png'),
+              )
+              :Image.asset(ImageRes.shoppingIcon,height: 225,width: Utils.screenWidth(context),),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      todoDetails[widget.index]['title'],
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromRGBO(36, 37, 44, 1)
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Text(
+                      textAlign: TextAlign.start,
+                      todoDetails[widget.index]['desc'],
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(36, 37, 44, 0.6)
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                     TaskDetailsWidget(index: widget.index,),
+                    QRCodeWidget(id: todoDetails[widget.index]['_id']),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

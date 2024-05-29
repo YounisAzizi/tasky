@@ -1,7 +1,5 @@
 import 'package:Tasky/core/res/image_res.dart';
-import 'package:Tasky/domain/riverpod/sign_in_riv.dart';
 import 'package:Tasky/routes/routes.dart';
-import 'package:Tasky/services/auth_services.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:Tasky/presentation/widget/profile/custom_information_container_widget.dart';
@@ -10,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/riverpod/profile_data_riv.dart';
+import '../../theme/colors.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -26,35 +25,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final userData = ref.watch(userDataProvider).userData;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                    onPressed: () {
+            Padding(
+              padding: const EdgeInsets.only(top: 42.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
                       context.go(Routes.mainScreen);
+
                     },
-                    icon: Row(
+                    child: Row(
                       children: [
-                        SvgPicture.asset(
-                          ImageRes.backButton,
-                          height: 30,
-                          width: 30,
-                        ),
+                        SvgPicture.asset(ImageRes.backButton,height: 24,width: 24,),
+
                         SizedBox(
                           width: 5,
                         ),
                         Text(
                           'Profile',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w500),
+                          style:  TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
                         ),
                       ],
-                    )),
-              ],
+                    ),
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 30,
@@ -65,17 +68,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               title: 'Phone',
               subtitle: userData['username'],
               hasLeading: true,
-              trailing: IconButton(
-                  onPressed: () {
-                    FlutterClipboard.copy(userData['username']).then((value) =>
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('${userData['username']} copied'))));
-                  },
-                  icon: const Icon(
-                    Icons.copy,
-                    color: Colors.deepPurple,
+              trailing:  InkWell(
+                    onTap: () {
+                      FlutterClipboard.copy(userData['username']).then((value) =>
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('${userData['username']} copied'))));
+                    },
+                    child: const Icon(
+                      Icons.copy,
+                      color: AppColors.mainThemColor,
+                      size: 24,
+                    ),
                   )),
-            ),
             CustomInformationContainerWidget(
                 title: 'Level', subtitle: userData['level']),
             CustomInformationContainerWidget(

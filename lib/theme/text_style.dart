@@ -17,7 +17,8 @@ class Styles {
       decoration: TextDecoration.underline,
       fontSize: 18,
       color: AppColors.mainThemColor,
-      fontWeight: FontWeight.bold
+      fontWeight: FontWeight.w500
+
   );
   static const noItemStyle = TextStyle(
     fontSize: 24,
@@ -38,14 +39,13 @@ class Styles {
       fontSize: 20);
   static const mainTitleStyle = TextStyle(
       color: AppColors.backgroundDark,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w700,
       overflow:TextOverflow.ellipsis,
-      fontSize: 25);
+      fontSize: 24);
   static const profileSubTitle = TextStyle(
-      color: AppColors.evaluationTextLight,
-      fontWeight: FontWeight.bold,
-      overflow:TextOverflow.ellipsis,
-      fontSize: 20);
+      color: Color.fromRGBO(47, 47, 47, 0.6),
+      fontWeight: FontWeight.w700,
+      fontSize: 18);
 
   static const toolTipStyle = TextStyle(
     fontSize: 12,

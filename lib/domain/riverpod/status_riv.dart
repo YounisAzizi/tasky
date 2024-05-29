@@ -2,19 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class StatusManagerNotifier extends ChangeNotifier {
-  String _selectedStatus = 'Waiting';
-  List<String> _statuses = ['Waiting', 'Inprogress', 'Finished'];
+  String _selectedStatus = 'waiting';
+  List<String> _statuses = ['waiting', 'inprogress', 'finished'];
 
   String get selectedStatus => _selectedStatus;
   List<String> get statuses => _statuses;
 
-  void setStatus(String priority) {
-    _selectedStatus = priority;
+  void setStatus(String status) {
+    _selectedStatus = status;
     notifyListeners();
   }
 
-  void setStatuses(List<String> newPriorities) {
-    _statuses = newPriorities;
+  void setStatuses(List<String> newStatuses) {
+    _statuses = newStatuses;
     notifyListeners();
   }
 }

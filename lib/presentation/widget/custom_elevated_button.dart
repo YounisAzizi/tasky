@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Tasky/core/utils/utils.dart';
 
+import '../../theme/colors.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({super.key,required this.onPressed, required this.child});
   final void Function()? onPressed;
@@ -12,9 +14,9 @@ class CustomElevatedButton extends StatelessWidget {
       onPressed: onPressed,
     style:ElevatedButton.styleFrom(
 
-      backgroundColor: const Color(0xFF5F33E1)
+      backgroundColor:  AppColors.mainThemColor
         ,
-      fixedSize: Size(Utils.screenWidth(context)/1.1, Utils.screenHeight(context)*0.07)
+      fixedSize: Size(Utils.screenWidth(context), 50)
     ), child: child,);
   }
 }

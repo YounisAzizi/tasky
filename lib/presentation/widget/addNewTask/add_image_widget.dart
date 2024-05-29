@@ -22,13 +22,15 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
   Widget build(BuildContext context) {
     final todoDetails = ref.watch(todosProvider);
     return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: () {
         ref.read(pickImageProvider).pickImage(ImageSource.gallery);
       },
       child: DottedBorder(
         dashPattern: const [3, 1],
         borderType: BorderType.RRect,
-        color: Colors.deepPurple.shade200,
+        color: AppColors.mainThemColor,
         radius: const Radius.circular(12),
         strokeWidth: 2,
         padding: const EdgeInsets.all(18.0),
@@ -48,7 +50,7 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
                       height: 13,
                       width: 13,
                       child: CircularProgressIndicator(
-                        color: Colors.deepPurple,
+                        color: AppColors.mainThemColor,
                         strokeWidth: 1,
                         strokeAlign: 5,
                       ),
@@ -57,13 +59,13 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
               ),
             ),
             SizedBox(width: 5,),
-            Icon(Icons.add_photo_alternate_outlined,size: 28,color: Colors.deepPurple,),
+            Icon(Icons.add_photo_alternate_outlined,size: 28,color: AppColors.mainThemColor,),
             SizedBox(width: 5,),
             Text('Add Img',
             style: TextStyle(
               color: AppColors.mainThemColor,
               fontWeight: FontWeight.w500,
-              fontSize: 18
+              fontSize: 19
             ),),
           ],
             ),

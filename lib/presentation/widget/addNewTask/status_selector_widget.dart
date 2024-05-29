@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../../core/res/image_res.dart';
 import '../../../core/utils/utils.dart';
 import '../../../domain/riverpod/is_todo_editing_riv.dart';
 import '../../../domain/riverpod/status_riv.dart';
 import '../../../domain/riverpod/todos_riv.dart';
+import '../../../theme/colors.dart';
 
 class StatusSelectorWidget extends ConsumerStatefulWidget {
   const StatusSelectorWidget({super.key,required this.index});
@@ -30,16 +33,21 @@ class _StatusSelectorWidgetState extends ConsumerState<StatusSelectorWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Priority',
-          style: TextStyle(
-              color: Colors.grey
+        const Text('Status',
+          style:TextStyle(
+            color: Color.fromRGBO(110, 106, 124, 1),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+
+
           ),),
         const SizedBox(height: 8,),
         Container(
+          height: 60,
           width: Utils.screenWidth(context),
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.deepPurple[50],
+            color: Color.fromRGBO(240, 236, 255, 1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: DropdownButtonHideUnderline(
@@ -47,11 +55,11 @@ class _StatusSelectorWidgetState extends ConsumerState<StatusSelectorWidget> {
               value: ref.watch(statusManagerProvider).selectedStatus,
               icon: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.0),
-                child: Icon(Icons.favorite, color: Colors.deepPurple),
+                child: Icon(Icons.favorite, color: AppColors.mainThemColor),
               ),
               iconSize: 18,
               elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple, fontSize: 16),
+              style: const TextStyle(color: AppColors.mainThemColor, fontSize: 16),
               onChanged: (String? newValue) {
                 print(newValue);
                 ref.read(statusManagerProvider.notifier).setStatus(newValue!);
@@ -64,11 +72,16 @@ class _StatusSelectorWidgetState extends ConsumerState<StatusSelectorWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: Row(
                       children: [
-                        const Icon(Icons.flag_outlined, color: Colors.deepPurple),
-                        const SizedBox(width: 8),
-                        Text(value,style: const TextStyle(
-                            fontWeight: FontWeight.w500
-                        ),),
+                        SvgPicture.asset(
+                          ImageRes.flag,
+                          height: 24,
+                          width: 24,
+                          color: AppColors.mainThemColor,
+                        ),                        const SizedBox(width: 8),
+                        Text(value,style: TextStyle(
+                            color: AppColors.mainThemColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),

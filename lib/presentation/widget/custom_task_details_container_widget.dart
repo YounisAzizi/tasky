@@ -1,4 +1,8 @@
+import 'package:Tasky/core/res/image_res.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../theme/colors.dart';
 
 class CustomTaskDetailsContainerWidget extends StatelessWidget {
   const CustomTaskDetailsContainerWidget(
@@ -12,7 +16,7 @@ class CustomTaskDetailsContainerWidget extends StatelessWidget {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-      color: Colors.deepPurple.withOpacity(0.1),
+      color: Color.fromRGBO(240, 236, 255, 1),
         borderRadius: const BorderRadius.all(
           Radius.circular(10)
         )
@@ -29,13 +33,19 @@ class CustomTaskDetailsContainerWidget extends StatelessWidget {
                 if (isDate)
                   const Text(
                     'End Date',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                    style: TextStyle(color: Color.fromRGBO(110, 106, 124, 1), fontSize: 9,fontWeight: FontWeight.w400),
                   ),
+                if(isDate)
+                SizedBox(height: 5,),
                 title
               ],
             ),
           ),
-          IconButton(onPressed: () {}, icon: Icon(icon,color: Colors.deepPurple,size: 20,))
+          isDate?Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: SvgPicture.asset(ImageRes.calender),
+          ):
+          IconButton(onPressed: () {}, icon: Icon(icon,color: AppColors.mainThemColor,size: 24,))
         ],
       ),
     );

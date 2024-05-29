@@ -19,7 +19,7 @@ class AppTheme {
             BorderSide.none), // Disables the border
       ),
     ),
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainThemColor),
     useMaterial3: true,
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
@@ -45,7 +45,9 @@ class AppTheme {
       ),
       enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        borderSide: BorderSide(color: AppColors.colorGrey),
+        borderSide: BorderSide(
+            color: Color.fromRGBO(186, 186, 186, 1)
+        ),
       ),
       focusedBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
