@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/riverpod/sign_in_riv.dart';
+import '../../theme/colors.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -23,7 +24,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return   Scaffold(
-      backgroundColor:Colors.deepPurple,
+      backgroundColor:AppColors.mainThemColor,
       body: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

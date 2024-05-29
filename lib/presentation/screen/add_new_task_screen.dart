@@ -1,4 +1,5 @@
 import 'package:Tasky/core/res/image_res.dart';
+import 'package:Tasky/core/utils/utils.dart';
 import 'package:Tasky/domain/riverpod/date_picker_riv.dart';
 import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
 import 'package:Tasky/domain/riverpod/pick_image_riv.dart';
@@ -49,120 +50,130 @@ class _AddNewTaskScreenState extends ConsumerState<AddNewTaskScreen> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        context.go(Routes.mainScreen);
-                      },
-                      icon:  Row(
-                        children: [
-                          SvgPicture.asset(ImageRes.backButton,height: 30,width: 30,),
-                          SizedBox(width: 5,),
-                          Text(
-                            isEditing? 'Edit task':'Add new task',
-                            style: TextStyle(
-                                color: Colors.black, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      )),
-                ],
-              ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                padding: const EdgeInsets.only(top: 42.0),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     AddImageWidget(
+                     InkWell(
+                          onTap: () {
+                          context.go(Routes.mainScreen);
+
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(ImageRes.backButton,height: 24,width: 24,),
+                              SizedBox(width: 5,),
+                              Text(
+                                isEditing? 'Edit task':'Add new task',
+                                style:  TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
+
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   SizedBox(
+                     width: Utils.screenWidth(context),
+                     child: AddImageWidget(
                       index: widget.index,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Task title',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                     TextField(
+                     ),
+                   ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Task title',
+                    style: TextStyle(color: Color.fromRGBO(110, 106, 124, 1),fontSize: 12,fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 8),
+                   SizedBox(
+                     width: double.infinity,
+                     height: 50,
+                     child: TextField(
                       controller: titleController,
                       decoration: InputDecoration(
                           hintText: 'Enter title here...',
-                          hintStyle: TextStyle(color: Colors.grey)),
+                          hintStyle: TextStyle(color: Color.fromRGBO(127, 127, 127, 1),fontSize: 14,fontWeight: FontWeight.w400)),
+                                       ),
+                   ),
+                  const SizedBox(height: 20),
+                  const Text('Task Description',
+                      style: TextStyle(color: Color.fromRGBO(110, 106, 124, 1),fontSize: 12,fontWeight: FontWeight.w400),),
+                  const SizedBox(height: 8),
+                   TextField(
+                    controller: descController,
+                    maxLines: 7,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
+                        hintStyle: TextStyle(color: Color.fromRGBO(127, 127, 127, 1),fontSize: 14,fontWeight: FontWeight.w400),
+                     hintText: 'Enter description here...',
                     ),
-                    const SizedBox(height: 20),
-                    const Text('Task Description',
-                        style: TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 8),
-                     TextField(
-                      controller: descController,
-                      maxLines: 7,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 20.0),
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        hintText: 'Enter description here...',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                     PrioritySelectorWidget(
-                       index: widget.index,
-                    ),
-                    if(isEditing)
-                    const SizedBox(height: 20),
-                    if(isEditing)
-                    StatusSelectorWidget(
-                      index: widget.index,
-                    ),
-                    const SizedBox(height: 20),
-                     CustomDatePicker(
-                       index: widget.index,
-                     ),
-                    const SizedBox(height: 28),
-                    CustomElevatedButton(
-                        onPressed: ()async {
-                          if(isEditing){
-                            authServices.editTodoById(
-                                todoId:ref.watch(todosProvider).todos[widget.index]['_id'] ,
-                                ref: ref,
-                                context:context ,
-                                imageUrl: 'https://media.licdn.com/dms/image/C5603AQF2ARgIeZLu5A/profile-displayphoto-shrink_200_200/0/1542094017276?e=2147483647&v=beta&t=S5P-tEwnKA2zfDJ_MMa9gGv5brGT5JFZ9FJwIcPNhVk',
-                                title: titleController.text,
-                                desc: descController.text,
-                                priority:ref.watch(priorityManagerProvider).selectedPriority ,
-                                status: ref.watch(statusManagerProvider).selectedStatus,
-                                userId: ref.watch(appDataProvider).storeId
-                            );
-                          }else{
-                            // final String? imageUrl = await authServices.uploadImage(ref.watch(pickImageProvider).imageFile!, ref.watch(appDataProvider).storeToken);
-                            authServices.addTodo(
-                              accessToken:ref.watch(appDataProvider).storeToken ,
+                  ),
+                  const SizedBox(height: 20),
+                   PrioritySelectorWidget(
+                     index: widget.index,
+                  ),
+                  if(isEditing)
+                  const SizedBox(height: 20),
+                  if(isEditing)
+                  StatusSelectorWidget(
+                    index: widget.index,
+                  ),
+                  const SizedBox(height: 20),
+                   CustomDatePicker(
+                     index: widget.index,
+                   ),
+                  const SizedBox(height: 28),
+                  CustomElevatedButton(
+                      onPressed: ()async {
+                        if(isEditing){
+                          authServices.editTodoById(
+                              todoId:ref.watch(todosProvider).todos[widget.index]['_id'] ,
+                              ref: ref,
+                              context:context ,
                               imageUrl: 'https://media.licdn.com/dms/image/C5603AQF2ARgIeZLu5A/profile-displayphoto-shrink_200_200/0/1542094017276?e=2147483647&v=beta&t=S5P-tEwnKA2zfDJ_MMa9gGv5brGT5JFZ9FJwIcPNhVk',
                               title: titleController.text,
                               desc: descController.text,
-                              priority: ref.watch(priorityManagerProvider).selectedPriority,
-                              dueDate: ref.watch(selectedDateProvider).selectedDate.toString(),
-                              context: context,
-                            ref: ref);
-                          }
-                        },
-                        child:  Text(
-                          isEditing?"Edit task":'Add task',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                    const SizedBox(height: 40),
-                  ],
-                ),
+                              priority:ref.watch(priorityManagerProvider).selectedPriority ,
+                              status: ref.watch(statusManagerProvider).selectedStatus,
+                              userId: ref.watch(appDataProvider).storeId
+                          );
+                        }else{
+                          // final String? imageUrl = await authServices.uploadImage(ref.watch(pickImageProvider).imageFile!, ref.watch(appDataProvider).storeToken);
+                          authServices.addTodo(
+                            accessToken:ref.watch(appDataProvider).storeToken ,
+                            imageUrl: 'https://media.licdn.com/dms/image/C5603AQF2ARgIeZLu5A/profile-displayphoto-shrink_200_200/0/1542094017276?e=2147483647&v=beta&t=S5P-tEwnKA2zfDJ_MMa9gGv5brGT5JFZ9FJwIcPNhVk',
+                            title: titleController.text,
+                            desc: descController.text,
+                            priority: ref.watch(priorityManagerProvider).selectedPriority,
+                            dueDate: ref.watch(selectedDateProvider).selectedDate.toString(),
+                            context: context,
+                          ref: ref);
+                        }
+                      },
+                      child:  Text(
+                        isEditing?"Edit task":'Add task',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )),
+                  const SizedBox(height: 40),
+                ],
               )
             ],
           ),

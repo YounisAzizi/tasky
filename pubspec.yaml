@@ -50,6 +50,8 @@ dependencies:
   mime: ^1.0.5
   qr_flutter: ^4.1.0
   shared_preferences: ^2.2.3
+  phone_form_field: ^9.2.4
+  phone_text_field: ^0.0.7
 
 dev_dependencies:
   flutter_test:

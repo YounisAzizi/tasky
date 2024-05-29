@@ -18,14 +18,20 @@ class _ExperienceLevelDropDownWidgetState extends ConsumerState<ExperienceLevelD
   Widget build(BuildContext context) {
     return  Container(
       width: Utils.screenWidth(context),
+      height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 1.0),
+        border: Border.all(color: Color.fromRGBO(186, 186, 186, 1), width: 1.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DropdownButton<String>(
         underline: SizedBox(),
         padding: EdgeInsets.only(left: 20),
-        hint: const Text('Choose experience level'),
+        hint: const Text('Choose experience level',
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Color.fromRGBO(47, 47, 47, 1)
+        ),),
         value: ref.watch(levelManagerNotifierProvider).selectedLevel,
         onChanged: (String? newValue) {
 
@@ -43,9 +49,13 @@ class _ExperienceLevelDropDownWidgetState extends ConsumerState<ExperienceLevelD
           );
         }).toList(),
         icon:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(width: Utils.screenWidth(context)/4,),
-            Icon(Icons.keyboard_arrow_down_outlined),
+            SizedBox(width: Utils.screenWidth(context)*0.34,),
+            Icon(Icons.keyboard_arrow_down_outlined,
+            size: 32,
+            color: Color.fromRGBO(127, 127, 127, 1).withOpacity(0.8),),
           ],
         ),
       ),

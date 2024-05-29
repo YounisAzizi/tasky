@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:Tasky/presentation/widget/custom_task_details_container_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../core/res/image_res.dart';
 import '../../domain/riverpod/todos_riv.dart';
+import '../../theme/colors.dart';
 
 class TaskDetailsWidget extends ConsumerStatefulWidget {
   const TaskDetailsWidget(
@@ -24,15 +27,17 @@ class _TaskDetailsWidgetState extends ConsumerState<TaskDetailsWidget> {
           CustomTaskDetailsContainerWidget(
             isDate: true,
             icon: Icons.date_range_outlined,
-            title: Text('${todoDetails[widget.index]['createdAt']}'.substring(0,10)),
+            title: Text('${todoDetails[widget.index]['createdAt']}'.substring(0,10),
+            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,
+            color: Color.fromRGBO(36, 37, 44, 1)),),
           ),
           SizedBox(height: 10,),
           CustomTaskDetailsContainerWidget(
             title: Text(
               todoDetails[widget.index]['status'],
               style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontSize: 18,
+                  color: AppColors.mainThemColor,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
             icon: Icons.favorite,
@@ -42,15 +47,17 @@ class _TaskDetailsWidgetState extends ConsumerState<TaskDetailsWidget> {
           CustomTaskDetailsContainerWidget(
             title: Row(
               children: [
-                Icon(
-                  Icons.flag_outlined,
-                  color: Colors.deepPurple,
+                SvgPicture.asset(
+                  ImageRes.flag,
+                  height: 24,
+                  width: 24,
+                  color: AppColors.mainThemColor,
                 ),
                 Text(
-                  todoDetails[widget.index]['priority'],
+                  '${todoDetails[widget.index]['priority']} priority',
                   style: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 18,
+                      color: AppColors.mainThemColor,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700),
                 )
               ],

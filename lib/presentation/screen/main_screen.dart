@@ -1,6 +1,4 @@
-import 'package:Tasky/core/res/image_res.dart';
 import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
-import 'package:Tasky/domain/riverpod/todos_riv.dart';
 import 'package:Tasky/routes/routes.dart';
 import 'package:Tasky/services/auth_services.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../domain/riverpod/sign_in_riv.dart';
 import '../../domain/riverpod/tab_bar_riv.dart';
+import '../../theme/colors.dart';
 import '../widget/custom_tab_bar_widget.dart';
 import '../widget/task_list_view_widget.dart';
 
@@ -43,7 +42,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -58,34 +57,38 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       ),
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () async {
-                              AuthServices()
-                                  .getProfile(ref.watch(appDataProvider).storeToken, ref, context)
-                                  .whenComplete(() {
-                                context.go(Routes.profileScreen);
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.account_circle_outlined,
-                              color: Colors.black,
-                              size: 34,
+
+                             InkWell(
+                              onTap: () {
+                                AuthServices()
+                                    .getProfile(ref.watch(appDataProvider).storeToken, ref, context)
+                                    .whenComplete(() {
+                                  context.go(Routes.profileScreen);
+                                });
+                              },
+                              child: const Icon(
+                                Icons.account_circle_outlined,
+                                color: Colors.black,
+                                size: 24,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              AuthServices().logOut(
-                                ref.watch(appDataProvider).storeToken,
-                                context,
-                                ref,
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.logout,
-                              color: Colors.deepPurple,
-                              size: 34,
+                         SizedBox(width: 10),
+
+                         InkWell(
+                              onTap: () {
+                                AuthServices().logOut(
+                                  ref.watch(appDataProvider).storeToken,
+                                  context,
+                                  ref,
+                                );
+                              },
+                              child: const Icon(
+                                Icons.logout,
+                                color: AppColors.mainThemColor,
+                                size: 24,
+                              ),
                             ),
-                          ),
+
                         ],
                       ),
                     ],
@@ -94,9 +97,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 const Text(
                   'My Tasks',
                   style: TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 19,
+                    color: Color.fromRGBO(36, 37, 44, 0.6),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -120,15 +123,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           Positioned(
             bottom: 100,
             right: 25,
-            child: Container(
-              height: 55,
-              width: 55,
-              color: Colors.white,
-              child: CircleAvatar(
-                backgroundColor: Colors.grey.shade300,
-                radius: 30,
-                child: Icon(Icons.qr_code, color: Colors.deepPurple),
-              ),
+            child: CircleAvatar(
+              backgroundColor: Color.fromRGBO(235, 229, 255, 1),
+              radius: 24,
+              child: Icon(Icons.qr_code_rounded, color: AppColors.mainThemColor,
+              size: 24,),
             ),
           ),
         ],
@@ -145,14 +144,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               context.go('${Routes.addNewTaskScreen.replaceFirst(':index', '${index}')}');
             },
             shape: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderRadius: BorderRadius.all(Radius.circular(32)),
               borderSide: BorderSide(color: Colors.white),
             ),
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: AppColors.mainThemColor,
             child: const Icon(
               Icons.add,
               color: Colors.white,
-              size: 30,
+              size: 32,
             ),
           ),
         ),

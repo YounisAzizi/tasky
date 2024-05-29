@@ -4,9 +4,12 @@ import 'package:Tasky/services/auth_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/res/image_res.dart';
 import '../../domain/riverpod/tab_bar_riv.dart';
 import '../../routes/routes.dart';
+import '../../theme/colors.dart';
 import '../../theme/text_style.dart';
 
 class TaskListView extends ConsumerStatefulWidget {
@@ -65,7 +68,7 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
                             height: 13,
                             width: 13,
                             child: CircularProgressIndicator(
-                              color: Colors.deepPurple,
+                              color: AppColors.mainThemColor,
                               strokeWidth: 1,
                               strokeAlign: 5,
                             ),
@@ -87,28 +90,34 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                task['title'].toString().length > 12
-                                    ? Text(
-                                  '${'${task['title']!}'.substring(0, 12)} ...',
-                                  style: Styles.titleStyle,
-                                  maxLines: 1,
-                                )
-                                    : Text(
-                                  '${task['title']!}',
-                                  style: Styles.titleStyle,
-                                  maxLines: 1,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: getStatusColor(task['status']!),
-                                    borderRadius: BorderRadius.circular(4),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    '${task['title']!}',
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black
+                                    ),
+                                    maxLines: 1,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      task['status']!,
-                                      maxLines: 1,
-                                      style: TextStyle(color: getStatusTextColor(task['status']!)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: getStatusColor(task['status']!),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        getStatusText(task['status']!)
+                                        ,
+                                        maxLines: 1,
+                                        style: TextStyle(color: getStatusTextColor(task['status']!)),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -119,28 +128,51 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
                                 ),
                               ],
                             ),
-                            Text(
-                              task['desc']!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.flag_outlined,
-                                      color: priorityColor(task['priority']!),
-                                    ),
-                                    Text(
-                                      task['priority']!,
-                                      style: TextStyle(color: priorityColor(task['priority']!)),
-                                    ),
-                                  ],
+                            Padding(
+                              padding: const EdgeInsets.only(right: 32.0),
+                              child: Text(
+                                task['desc']!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Color.fromRGBO(36, 37, 44, 0.6)
                                 ),
-                                Text('${task['createdAt']!}'.substring(0, 10)),
-                              ],
+                              ),
+                            ),
+                            SizedBox(height: 8,),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 32.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        ImageRes.flag,
+                                        height: 16,
+                                        width: 16,
+                                        color: priorityColor(task['priority']!),
+                                      ),
+
+                                      Text(
+                                        getPriorityText(task['priority']!)
+                                        ,
+                                        style: TextStyle(color: priorityColor(task['priority']!),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                  Text('${task['createdAt']!}'.substring(0, 10),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(36, 37, 44, 0.6)
+                                  ),),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -157,15 +189,26 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
       ),
     );
   }
-
+  String getStatusText(String status) {
+    switch (status) {
+      case 'waiting':
+        return 'Waiting';
+      case 'inprogress':
+        return 'Inprogress';
+      case 'finished':
+        return 'Finished';
+      default:
+        return 'Unknown Status';
+    }
+  }
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Inprogress':
-        return Colors.blue.withOpacity(0.2);
-      case 'Waiting':
-        return Colors.deepOrange.withOpacity(0.2);
-      case 'Finished':
-        return Colors.green.withOpacity(0.2);
+      case 'inprogress':
+        return Color.fromRGBO(240, 236, 255, 1);
+      case 'waiting':
+        return Color.fromRGBO(255, 228, 242, 1);
+      case 'finished':
+        return Color.fromRGBO(227, 242, 255, 1);
       default:
         return Colors.grey.withOpacity(0.2);
     }
@@ -174,24 +217,36 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
   Color getStatusTextColor(String status) {
     switch (status) {
       case 'inprogress':
-        return Colors.blue;
+        return AppColors.mainThemColor;
       case 'waiting':
-        return Colors.deepOrange;
+        return Color.fromRGBO(255, 125, 83, 1);
       case 'finished':
-        return Colors.green;
+        return Color.fromRGBO(0, 135, 255, 1);
       default:
         return Colors.grey;
     }
   }
 
+  String getPriorityText(String status) {
+    switch (status) {
+      case 'medium':
+        return 'Medium';
+      case 'low':
+        return 'Low';
+      case 'high':
+        return 'High';
+      default:
+        return 'Unknown Status';
+    }
+  }
   Color priorityColor(String priority) {
     switch (priority) {
       case 'medium':
-        return Colors.blue;
+        return AppColors.mainThemColor;
       case 'low':
-        return Colors.deepOrange;
+        return Color.fromRGBO(0, 135, 255, 1);
       case 'high':
-        return Colors.deepPurple;
+        return Color.fromRGBO(255, 125, 83, 1);
       default:
         return Colors.grey;
     }

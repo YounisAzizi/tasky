@@ -1,7 +1,9 @@
+import 'package:Tasky/core/res/image_res.dart';
 import 'package:Tasky/domain/riverpod/date_picker_riv.dart';
 import 'package:Tasky/domain/riverpod/is_todo_editing_riv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../domain/riverpod/todos_riv.dart';
 
@@ -30,13 +32,18 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
   }
   @override
   Widget build(BuildContext context) {
+    final isEditing = ref.watch(isTodoEditingProvider).isEditing;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Due date',
         style: TextStyle(
-          color: Colors.grey
+          color: Color.fromRGBO(110, 106, 124, 1),
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+
+
         ),),
         const SizedBox(height: 8,),
         GestureDetector(
@@ -44,7 +51,7 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
             _selectDate(context);
           },
           child: Container(
-            height: 60,
+            height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey, width: 2.0),
@@ -54,11 +61,17 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text('${ref.watch(selectedDateProvider).selectedDate}',
+                  child: Text(isEditing
+                      ?'${ref.watch(selectedDateProvider).selectedDate}'
+                    :'choose due date',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),
-                const Icon(Icons.date_range, color: Colors.deepPurple),
+                SvgPicture.asset(
+                  ImageRes.calender,
+                  height: 24,
+                  width: 24,
+                ),
               ],
             ),
           ),

@@ -12,19 +12,26 @@ class CustomInformationContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:  EdgeInsets.all(8.0),
       child: Container(
+          constraints: BoxConstraints(
+            minHeight: 80,
+          ),
         decoration: BoxDecoration(
         color: Colors.grey.shade200,
           borderRadius: const BorderRadius.all(
             Radius.circular(12)
           )
         ),
-        height: 80,
         child: ListTile(
           title: Text(title,
-          style: Styles.fadeTextStyle,),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(47, 47, 47, 0.4)
+          ),),
           subtitle: Text(subtitle,
+          textAlign: TextAlign.start,
           style: Styles.profileSubTitle,),
           trailing:hasLeading? trailing:const SizedBox(),
         ),

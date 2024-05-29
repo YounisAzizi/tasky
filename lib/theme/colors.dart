@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
-  static const mainThemColor = Colors.deepPurple;
+  static const mainThemColor = Color.fromRGBO(95, 51, 225, 1);
   static const lightGrey = Color.fromRGBO(238, 238, 238, 1);
   static const lightGreen = Color.fromRGBO(198, 228, 139, 1);
   static const midGreen = Color.fromRGBO(123, 201, 111, 1);

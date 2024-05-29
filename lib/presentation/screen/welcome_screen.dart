@@ -1,4 +1,5 @@
 import 'package:Tasky/core/res/image_res.dart';
+import 'package:Tasky/presentation/widget/sticker_widget.dart';
 import 'package:Tasky/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:Tasky/core/utils/utils.dart';
@@ -18,53 +19,49 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children:[
-            Container(
-              color: Colors.white,
-                height: Utils.screenHeight(context)/1.8,
-                width: Utils.screenWidth(context),
-                child: Image.asset(ImageRes.appSticker,
-                fit: BoxFit.cover,),),
+            StickerWidget(),
             const Text('Task Management & \n To-Do List',
             textAlign: TextAlign.center,
             style:TextStyle(
               color: Colors.black,
-              fontSize: 25,
+              fontSize: 24,
               fontFamily: 'Phosphate',
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
               height: 0,
             ),),
             const SizedBox(height: 20,),
             const Text(
                 'This productive tool is designed to help\n'
-                '\n'
                     'you better manage your task\n'
-                    '\n'
                     'project-wise conveniently',
               textAlign: TextAlign.center,
               style:TextStyle(
-                color: Colors.black,
+                color: Color.fromRGBO(110, 106, 124, 1),
                 fontSize: 14,
-                fontFamily: 'Phosphate',
-                fontWeight: FontWeight.w300,
-                height: 0,
+                height: 1.5,
+                fontFamily: 'DM Sans',
+                fontWeight: FontWeight.w400,
               ),),
             const SizedBox(height: 30,),
-            CustomElevatedButton(
-              onPressed: () {
-                context.go(Routes.signInScreen);
-              },
-              child:  Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Let\'s Start',
-                style: TextStyle(color: Colors.white,fontWeight:
-                FontWeight.bold,
-                fontSize: 18),),
-                SizedBox(width: 5,),
-                SvgPicture.asset(ImageRes.forwardButton,height: 30,width: 30,),
-              ],
-            ), )
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22.0),
+              child: CustomElevatedButton(
+                onPressed: () {
+                  context.go(Routes.signInScreen);
+                },
+                child:  Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Let\'s Start',
+                  style: TextStyle(color: Colors.white,fontWeight:
+                  FontWeight.w700,
+                  fontSize: 19),),
+                  SizedBox(width: 5,),
+                  SvgPicture.asset(ImageRes.forwardButton,height: 24,width: 24,),
+                ],
+              ), ),
+            )
         ]),
       ),
     );

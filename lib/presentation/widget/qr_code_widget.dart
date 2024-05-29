@@ -9,11 +9,14 @@ class QRCodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QrImageView(
-      data: id,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: QrImageView(
+        data: id,
 
-      version: QrVersions.auto,
-      size: Utils.screenWidth(context),
+        version: QrVersions.auto,
+        size: Utils.screenWidth(context),
+      ),
     );
   }
 }
