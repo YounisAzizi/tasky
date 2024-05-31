@@ -302,16 +302,15 @@ class AuthServices {
     }
   }
   //not completed
-  Future<void> fetchOneTodo(int taskId, String accessToken, WidgetRef ref,BuildContext context) async {
+  Future<void> fetchOneTodo(int taskId, WidgetRef ref,BuildContext context) async {
     final String url = '${Apis.fetchTodos}$taskId';
-    print(accessToken);
     try {
       ref.read(loadingProvider).showLoading();
       Utils.showLoadingDialog(context,'Fetching todo');
       final response = await http.get(
         Uri.parse(url),
         headers: {
-          'Authorization': 'Bearer $accessToken',
+          'Authorization': 'Bearer ${ref.watch(appDataProvider).storeToken}',
         },
       );
       ref.read(loadingProvider).hideLoading();

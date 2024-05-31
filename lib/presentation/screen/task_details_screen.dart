@@ -8,7 +8,6 @@ import 'package:Tasky/services/auth_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:Tasky/presentation/widget/task_details_widget.dart';
-import 'package:Tasky/theme/text_style.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -185,7 +184,7 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                       height: 10,
                     ),
                      TaskDetailsWidget(index: widget.index,),
-                    QRCodeWidget(id: todoDetails[widget.index]['_id']),
+                    QRCodeWidget(id: todoDetails[widget.index]['_id'],index: widget.index,),
                     const SizedBox(
                       height: 10,
                     ),
