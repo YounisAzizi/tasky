@@ -14,7 +14,8 @@ class TaskDetailsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todoDetails = ref.watch(mainScreenProvider).todos;
+    final todoDetails = ref.watch(mainScreenProvider).todos[index];
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
@@ -23,30 +24,28 @@ class TaskDetailsWidget extends ConsumerWidget {
             isDate: true,
             icon: Icons.date_range_outlined,
             title: Text(
-              '${todoDetails[index]['createdAt']}'.substring(0, 10),
+              '${todoDetails.createdAt}'.substring(0, 10),
               style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(36, 37, 44, 1)),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color.fromRGBO(36, 37, 44, 1),
+              ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           CustomTaskDetailsContainerWidget(
             title: Text(
-              todoDetails[index]['status'],
+              todoDetails.status.name,
               style: TextStyle(
-                  color: AppColors.mainThemColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
+                color: AppColors.mainThemColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             icon: Icons.favorite,
             isDate: false,
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           CustomTaskDetailsContainerWidget(
             title: Row(
               children: [
@@ -57,11 +56,12 @@ class TaskDetailsWidget extends ConsumerWidget {
                   color: AppColors.mainThemColor,
                 ),
                 Text(
-                  '${todoDetails[index]['priority']} priority',
+                  '${todoDetails.priority} priority',
                   style: TextStyle(
-                      color: AppColors.mainThemColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
+                    color: AppColors.mainThemColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 )
               ],
             ),

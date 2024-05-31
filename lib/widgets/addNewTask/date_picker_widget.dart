@@ -1,39 +1,19 @@
 import 'package:Tasky/const/image_res.dart';
-import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
+import 'package:Tasky/state_managers/data/new_task_data_provider.dart';
 import 'package:Tasky/state_managers/screens/new_task_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomDatePicker extends ConsumerStatefulWidget {
-  const CustomDatePicker({super.key, required this.index});
-  final int index;
+class CustomDatePicker extends ConsumerWidget {
+  const CustomDatePicker({super.key});
 
   @override
-  CustomDatePickerState createState() => CustomDatePickerState();
-}
-
-class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
-  final TextEditingController _controller = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        if (ref.watch(newTaskScreenProvider).isEditing) {
-          _controller.text =
-              ref.watch(mainScreenProvider).todos[widget.index]['createdAt'];
-          ref.read(newTaskScreenProvider).selectedDate = DateTime.parse(
-            ref.watch(mainScreenProvider).todos[widget.index]['createdAt'],
-          );
-        }
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isEditing = ref.watch(newTaskScreenProvider).isEditing;
+    final newTaskDataState = ref.watch(newTaskDataProvider);
+    final taskModel = newTaskDataState.taskModel;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,8 +30,8 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
           height: 8,
         ),
         GestureDetector(
-          onTap: () {
-            _selectDate(context);
+          onTap: () async {
+            await _selectDate(context, ref);
           },
           child: Container(
             height: 50,
@@ -66,9 +46,7 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
               children: [
                 Expanded(
                   child: Text(
-                    isEditing
-                        ? '${ref.watch(newTaskScreenProvider).selectedDate}'
-                        : 'choose due date',
+                    isEditing ? '${taskModel.dueDate}' : 'choose due date',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -85,7 +63,7 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, WidgetRef ref) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -93,8 +71,10 @@ class CustomDatePickerState extends ConsumerState<CustomDatePicker> {
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != ref.watch(newTaskScreenProvider)) {
-      ref.read(newTaskScreenProvider.notifier).selectedDate = picked;
-      _controller.text = '${ref.watch(newTaskScreenProvider).selectedDate}';
+      final newTaskModel =
+          ref.read(newTaskDataProvider).taskModel.copyWith(dueDate: '$picked');
+
+      ref.read(newTaskDataProvider).taskModel = newTaskModel;
     }
   }
 }

@@ -1,20 +1,15 @@
+import 'package:Tasky/models/level_enum.dart';
 import 'package:Tasky/state_managers/screens/sign_up_screen_provider.dart';
 import 'package:Tasky/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ExperienceLevelDropDownWidget extends ConsumerStatefulWidget {
-  const ExperienceLevelDropDownWidget({super.key});
+class ExperienceLevelDropDownWidget extends ConsumerWidget {
+  const ExperienceLevelDropDownWidget();
 
   @override
-  ConsumerState<ExperienceLevelDropDownWidget> createState() =>
-      _ExperienceLevelDropDownWidgetState();
-}
-
-class _ExperienceLevelDropDownWidgetState
-    extends ConsumerState<ExperienceLevelDropDownWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final signUpScreenState = ref.watch(signUpScreenProvider);
     return Container(
       width: Utils.screenWidth(context),
       height: 50,
@@ -22,7 +17,7 @@ class _ExperienceLevelDropDownWidgetState
         border: Border.all(color: Color.fromRGBO(186, 186, 186, 1), width: 1.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: DropdownButton<String>(
+      child: DropdownButton<LevelEnum>(
         underline: SizedBox(),
         padding: EdgeInsets.only(left: 20),
         hint: const Text(
@@ -32,20 +27,20 @@ class _ExperienceLevelDropDownWidgetState
               fontWeight: FontWeight.w500,
               color: Color.fromRGBO(47, 47, 47, 1)),
         ),
-        value: ref.watch(signUpScreenProvider).selectedLevel,
-        onChanged: (String? newValue) {
+        value: signUpScreenState.selectedLevel,
+        onChanged: (newValue) {
           ref.read(signUpScreenProvider.notifier).selectedLevel = newValue;
           print(ref.watch(signUpScreenProvider));
         },
         items: ref
             .watch(signUpScreenProvider)
             .levels
-            .map<DropdownMenuItem<String>>((String level) {
-          return DropdownMenuItem<String>(
+            .map<DropdownMenuItem<LevelEnum>>((level) {
+          return DropdownMenuItem<LevelEnum>(
             value: level,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(level),
+              child: Text(level.name),
             ),
           );
         }).toList(),

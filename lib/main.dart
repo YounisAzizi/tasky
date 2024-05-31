@@ -2,18 +2,21 @@ import 'dart:async';
 
 import 'package:Tasky/routes/app_router.dart';
 import 'package:Tasky/theme/app_theme.dart';
-import 'package:Tasky/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runZonedGuarded(() async {
-    await SharedPrefs.init();
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
+
     runApp(ProviderScope(child: const MyApp()));
-  }, (error, stackTrace) async {});
+  }, (error, stackTrace) async {
+    debugPrint('Mahdi: check data: ${error}');
+    debugPrint('Mahdi: check data: ${stackTrace}');
+  });
 }
 
 class MyApp extends StatelessWidget {

@@ -1,10 +1,9 @@
 import 'package:Tasky/const/const.dart';
 import 'package:Tasky/const/image_res.dart';
 import 'package:Tasky/routes/routes.dart';
-import 'package:Tasky/services/auth_services.dart';
+import 'package:Tasky/state_managers/data/task_details_data_provider.dart';
 import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
 import 'package:Tasky/state_managers/screens/new_task_screen_provider.dart';
-import 'package:Tasky/utils/shared_prefs.dart';
 import 'package:Tasky/utils/utils.dart';
 import 'package:Tasky/widgets/qr_code_widget.dart';
 import 'package:Tasky/widgets/task_details_widget.dart';
@@ -23,7 +22,12 @@ class TaskDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todoDetails = ref.watch(mainScreenProvider).todos;
+    final detailsState = ref.watch(taskDetailsDataProvider);
+    final todos = ref.watch(mainScreenProvider).todos;
+    final todoDetails = todos[index];
+    final hasImage = index < todos.length &&
+        todoDetails.image != null &&
+        todoDetails.image != '';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -38,32 +42,33 @@ class TaskDetailsScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        onPressed: () {
-                          context.go(Routes.mainScreen);
-                        },
-                        icon: Row(
-                          children: [
-                            SvgPicture.asset(
-                              ImageRes.backButton,
-                              height: 24,
-                              width: 24,
+                      onPressed: () {
+                        context.go(Routes.mainScreen);
+                      },
+                      icon: Row(
+                        children: [
+                          SvgPicture.asset(
+                            ImageRes.backButton,
+                            height: 24,
+                            width: 24,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            'Task Details',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Task Details',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16),
-                            )
-                          ],
-                        )),
+                          )
+                        ],
+                      ),
+                    ),
                     PopupMenuButton<String>(
                       shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.white)),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       padding: EdgeInsets.symmetric(horizontal: 5),
                       color: Color.fromRGBO(255, 255, 255, 1),
                       onSelected: (value) {
@@ -89,17 +94,16 @@ class TaskDetailsScreen extends ConsumerWidget {
                             child: Text(
                               'Edit',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 16),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                          PopupMenuDivider(
-                            height: 1,
-                          ),
+                          PopupMenuDivider(height: 1),
                           PopupMenuItem(
                             onTap: () async {
-                              await AuthServices.deleteTodo(
-                                todoDetails[index]['_id'],
-                                SharedPrefs.getStoreToken() ?? '',
+                              await detailsState.deleteTodo(
+                                todoDetails.id,
                                 context,
                                 ref,
                                 index,
@@ -109,9 +113,10 @@ class TaskDetailsScreen extends ConsumerWidget {
                             child: Text(
                               'Delete',
                               style: TextStyle(
-                                  color: Color.fromRGBO(255, 125, 83, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
+                                color: Color.fromRGBO(255, 125, 83, 1),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ];
@@ -125,16 +130,12 @@ class TaskDetailsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              index < todoDetails.length &&
-                      todoDetails[index]['image'] != null &&
-                      todoDetails[index]['image'] != ''
+              SizedBox(height: 30),
+              hasImage
                   ? CachedNetworkImage(
                       height: 225,
                       width: Utils.screenWidth(context),
-                      imageUrl: todoDetails[index]['image'],
+                      imageUrl: todoDetails.image!,
                       placeholder: (context, url) => Center(
                           child: SizedBox(
                         height: 13,
@@ -153,9 +154,7 @@ class TaskDetailsScreen extends ConsumerWidget {
                       height: 225,
                       width: Utils.screenWidth(context),
                     ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
@@ -163,29 +162,26 @@ class TaskDetailsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      todoDetails[index]['title'],
+                      todoDetails.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(36, 37, 44, 1)),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.start,
-                      todoDetails[index]['desc'],
+                      todoDetails.desc,
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(36, 37, 44, 0.6)),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(36, 37, 44, 0.6),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     TaskDetailsWidget(index: index),
-                    QRCodeWidget(id: todoDetails[index]['_id']),
+                    QRCodeWidget(id: todoDetails.id),
                     const SizedBox(height: 10),
                   ],
                 ),

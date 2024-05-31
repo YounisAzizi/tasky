@@ -4,9 +4,9 @@ import 'package:Tasky/routes/routes.dart';
 import 'package:Tasky/services/auth_services.dart';
 import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
 import 'package:Tasky/state_managers/screens/new_task_screen_provider.dart';
+import 'package:Tasky/state_managers/screens/profile_screen_provider.dart';
 import 'package:Tasky/theme/colors.dart';
 import 'package:Tasky/theme/text_style.dart';
-import 'package:Tasky/utils/shared_prefs.dart';
 import 'package:Tasky/widgets/custom_tab_bar_widget.dart';
 import 'package:Tasky/widgets/task_list_view_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +25,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      AuthServices.fetchListTodos(
-        1,
-        SharedPrefs.getStoreToken() ?? '',
-        ref,
-        context,
-      );
+      ref.read(mainScreenProvider).fetchListTodos(
+            1,
+            ref,
+            context,
+          );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final statusNotifier = ref.watch(mainScreenProvider);
-    final storeToken = SharedPrefs.getStoreToken() ?? '';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -58,11 +56,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              AuthServices.getProfile(
-                                storeToken,
-                                ref,
-                                context,
-                              ).whenComplete(() {
+                              ref
+                                  .read(userDataProvider)
+                                  .getProfile(
+                                    ref,
+                                    context,
+                                  )
+                                  .whenComplete(() {
                                 context.go(Routes.profileScreen);
                               });
                             },
@@ -76,7 +76,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           InkWell(
                             onTap: () {
                               AuthServices.logOut(
-                                storeToken,
                                 context,
                                 ref,
                               );

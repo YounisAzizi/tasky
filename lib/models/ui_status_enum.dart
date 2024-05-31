@@ -1,11 +1,18 @@
-enum Status {
-  inProgress,
+enum UiStatus {
+  inprogress,
   waiting,
   finished;
 
   static List<String> getNames() => [
-        inProgress.name,
+        inprogress.name,
         waiting.name,
         finished.name,
       ];
+
+  static UiStatus fromString(String name) {
+    return values.firstWhere(
+      (newName) => newName == name,
+      orElse: () => throw ArgumentError('Invalid value: $name'),
+    );
+  }
 }
