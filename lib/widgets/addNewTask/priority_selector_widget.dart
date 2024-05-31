@@ -1,4 +1,5 @@
-import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
+import 'package:Tasky/models/priorities_enum.dart';
+import 'package:Tasky/state_managers/data/new_task_data_provider.dart';
 import 'package:Tasky/state_managers/screens/new_task_screen_provider.dart';
 import 'package:Tasky/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -8,32 +9,13 @@ import 'package:flutter_svg/svg.dart';
 import '../../../const/image_res.dart';
 import '../../../theme/colors.dart';
 
-class PrioritySelectorWidget extends ConsumerStatefulWidget {
-  const PrioritySelectorWidget({super.key, required this.index});
-  final int index;
-  @override
-  ConsumerState<PrioritySelectorWidget> createState() =>
-      _PrioritySelectorWidgetState();
-}
-
-class _PrioritySelectorWidgetState
-    extends ConsumerState<PrioritySelectorWidget> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        if (ref.watch(newTaskScreenProvider).isEditing) {
-          ref.read(newTaskScreenProvider).priorities =
-              ref.watch(mainScreenProvider).todos[widget.index]['priority'];
-        }
-      },
-    );
-  }
+class PrioritySelectorWidget extends ConsumerWidget {
+  const PrioritySelectorWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final taskModel = ref.watch(newTaskDataProvider).taskModel;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,7 +40,7 @@ class _PrioritySelectorWidgetState
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: ref.watch(newTaskScreenProvider).selectedPriority,
+              value: taskModel.priority.name,
               icon: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.0),
                 child: Icon(Icons.favorite, color: AppColors.mainThemColor),
@@ -68,15 +50,17 @@ class _PrioritySelectorWidgetState
               style:
                   const TextStyle(color: AppColors.mainThemColor, fontSize: 16),
               onChanged: (String? newValue) {
-                ref.read(newTaskScreenProvider.notifier).selectedPriority =
-                    newValue!;
+                final newTaskModel = taskModel.copyWith(
+                    priority: PrioritiesEnum.fromString(newValue!));
+
+                ref.read(newTaskDataProvider).taskModel = newTaskModel;
               },
               items: ref
                   .watch(newTaskScreenProvider)
                   .priorities
-                  .map<DropdownMenuItem<String>>((String value) {
+                  .map<DropdownMenuItem<String>>((value) {
                 return DropdownMenuItem<String>(
-                  value: value,
+                  value: value.name,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: Row(
@@ -88,11 +72,14 @@ class _PrioritySelectorWidgetState
                           color: AppColors.mainThemColor,
                         ),
                         const SizedBox(width: 8),
-                        Text(value,
-                            style: TextStyle(
-                                color: AppColors.mainThemColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700)),
+                        Text(
+                          value.name,
+                          style: TextStyle(
+                            color: AppColors.mainThemColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ],
                     ),
                   ),

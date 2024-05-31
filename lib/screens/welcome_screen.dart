@@ -30,9 +30,7 @@ class WelcomeScreen extends StatelessWidget {
                   height: 0,
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               const Text(
                 'This productive tool is designed to help\n'
                 'you better manage your task\n'
@@ -46,9 +44,7 @@ class WelcomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: CustomElevatedButton(
@@ -62,13 +58,12 @@ class WelcomeScreen extends StatelessWidget {
                       Text(
                         'Let\'s Start',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 19),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 19,
+                        ),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      SizedBox(width: 5),
                       SvgPicture.asset(
                         ImageRes.forwardButton,
                         height: 24,

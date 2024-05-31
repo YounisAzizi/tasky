@@ -28,6 +28,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.obscureText = false,
     this.autoFocus = false,
     this.contentPadding,
+    this.inputDecoration,
   });
 
   final String text;
@@ -53,6 +54,7 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextInputType? textInputType;
   final Widget? suffixIcon;
   final Widget? prefix;
+  final InputDecoration? inputDecoration;
 
   @override
   State<TextFormFieldWidget> createState() => _TextFormFieldWidgetState();
@@ -92,20 +94,21 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         obscureText: widget.obscureText,
         keyboardType: widget.textInputType,
         onEditingComplete: widget.onEditingComplete,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          filled: true,
-          fillColor: Colors.white,
-          suffixIcon: widget.suffixIcon,
-          prefixIcon: widget.prefix,
-          contentPadding: widget.contentPadding,
-          border: widget.border ??
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          enabledBorder: widget.border ??
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          focusedBorder: widget.border ??
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        ),
+        decoration: widget.inputDecoration ??
+            InputDecoration(
+              hintText: widget.hintText,
+              filled: true,
+              fillColor: Colors.white,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefix,
+              contentPadding: widget.contentPadding,
+              border: widget.border ??
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              enabledBorder: widget.border ??
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              focusedBorder: widget.border ??
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
         onFieldSubmitted: widget.onFieldSubmitted,
         validator: widget.validator,
         controller: controller,

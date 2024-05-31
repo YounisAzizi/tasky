@@ -22,7 +22,7 @@ class AppRouter {
           GoRoute(
             path: Routes.signInScreen,
             builder: (context, state) {
-              return const SignInScreen();
+              return SignInScreen();
             },
           ),
           GoRoute(
@@ -48,6 +48,7 @@ class AppRouter {
             path: Routes.addNewTaskScreen,
             builder: (context, state) {
               final index = int.parse(state.pathParameters[paramsFieldName]!);
+
               return AddNewTaskScreen(index: index);
             },
           ),

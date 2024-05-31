@@ -7,18 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddImageWidget extends ConsumerStatefulWidget {
-  const AddImageWidget({super.key, required this.index});
-  final int index;
+class AddImageWidget extends ConsumerWidget {
+  final String imageUrl;
+
+  const AddImageWidget({required this.imageUrl});
 
   @override
-  ConsumerState<AddImageWidget> createState() => _AddImageWidgetState();
-}
-
-class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final todoDetails = ref.watch(mainScreenProvider);
+
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -42,7 +39,7 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
                 borderRadius: BorderRadius.circular(30),
                 child: CachedNetworkImage(
                   width: 100,
-                  imageUrl: todoDetails.todos[widget.index]['image'],
+                  imageUrl: imageUrl,
                   placeholder: (context, url) => Center(
                       child: SizedBox(
                     height: 13,
