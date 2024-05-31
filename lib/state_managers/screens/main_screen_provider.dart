@@ -49,7 +49,7 @@ class MainScreenProvider extends ChangeNotifier {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
         },
       );
       ref.read(loadingProvider).hideLoading();
@@ -63,6 +63,12 @@ class MainScreenProvider extends ChangeNotifier {
             serverItems.map((todo) => TaskModel.fromJson(todo)).toList();
 
         _todos = newTodos;
+        _todos.forEach((todo) {
+          debugPrint('Mahdi: fetchListTodos: 2: $todo');
+        });
+        debugPrint('Mahdi: fetchListTodos: 3: ${SharedPrefs.getStoreToken()}');
+        debugPrint('Mahdi: fetchListTodos: 4: ${SharedPrefs.getStoreToken()}');
+        notifyListeners();
       } else {
         print('Failed to fetch todos');
         print('Status code: ${response.statusCode}');

@@ -93,7 +93,7 @@ class NewTaskScreenProvider extends ChangeNotifier {
       final response = await Api.put(
         url: '${Apis.editTodo}${taskModel.id}',
         headers: {
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
           'Content-Type': 'application/json',
         },
         body: taskModel.toJson(),
@@ -129,7 +129,7 @@ class NewTaskScreenProvider extends ChangeNotifier {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
         },
         data: taskModel.toJson(),
       );

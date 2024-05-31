@@ -120,16 +120,18 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     TextFormFieldWidget(
-                      text: '${signUpModel.experienceYears}',
+                      text: '${signUpModel.experienceYears ?? ''}',
                       hintText: 'Years of experience...',
                       textInputType: TextInputType.number,
                       onChanged: (yearsOfExperience) {
-                        final newSignUpModel = signUpModel.copyWith(
-                          experienceYears: int.parse(yearsOfExperience),
-                        );
+                        if (yearsOfExperience.isNotEmpty) {
+                          final newSignUpModel = signUpModel.copyWith(
+                            experienceYears: int.parse(yearsOfExperience),
+                          );
 
-                        ref.read(signUpScreenProvider).signUpModel =
-                            newSignUpModel;
+                          ref.read(signUpScreenProvider).signUpModel =
+                              newSignUpModel;
+                        }
                       },
                       validator: (yearsExperience) {
                         if (yearsExperience == null ||
@@ -162,7 +164,7 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormFieldWidget(
-                      text: '${signUpModel.address}',
+                      text: '${signUpModel.password}',
                       hintText: 'Password...',
                       obscureText: ref.watch(passwordBoolProvider).beSecure,
                       suffixIcon: IconButton(

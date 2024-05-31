@@ -7,7 +7,7 @@ enum PrioritiesEnum {
 
   static PrioritiesEnum fromString(String name) {
     return values.firstWhere(
-      (newName) => newName == name,
+      (newName) => newName.name == name,
       orElse: () => throw ArgumentError('Invalid value: $name'),
     );
   }

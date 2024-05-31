@@ -34,14 +34,14 @@ class TaskModel {
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
-        id: json['id'],
-        image: json['image'],
-        title: json['title'],
-        desc: json['desc'],
+        id: json['id'] ?? '',
+        image: json['image'] ?? '',
+        title: json['title'] ?? '',
+        desc: json['desc'] ?? '',
         priority: PrioritiesEnum.fromString(json['priority'] ?? ''),
         status: UiStatus.fromString(json['status'] ?? ''),
-        dueDate: json['dueDate'],
-        createdAt: json['createdAt'],
+        dueDate: json['dueDate'] ?? '',
+        createdAt: json['createdAt'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {

@@ -13,10 +13,7 @@ void main() {
     );
 
     runApp(ProviderScope(child: const MyApp()));
-  }, (error, stackTrace) async {
-    debugPrint('Mahdi: check data: ${error}');
-    debugPrint('Mahdi: check data: ${stackTrace}');
-  });
+  }, (error, stackTrace) async {});
 }
 
 class MyApp extends StatelessWidget {

@@ -29,10 +29,11 @@ class ExperienceLevelDropDownWidget extends ConsumerWidget {
             color: Color.fromRGBO(47, 47, 47, 1),
           ),
         ),
-        value: signUpScreenState.selectedLevel,
+        value: signUpScreenState.signUpModel.level,
         onChanged: (newValue) {
-          ref.read(signUpScreenProvider.notifier).selectedLevel = newValue;
-          print(ref.watch(signUpScreenProvider));
+          final newSignUpModel =
+              signUpScreenState.signUpModel.copyWith(level: newValue);
+          ref.read(signUpScreenProvider).signUpModel = newSignUpModel;
         },
         items: ref
             .watch(signUpScreenProvider)
