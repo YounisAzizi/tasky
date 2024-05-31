@@ -20,7 +20,6 @@ class SignUpScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final signUpScreenState = ref.watch(signUpScreenProvider);
     final signUpModel = signUpScreenState.signUpModel;
-    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -36,7 +35,7 @@ class SignUpScreen extends ConsumerWidget {
                   bottom: 20,
                   left: 20,
                   child: Text(
-                    'Login',
+                    'SignUp',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 24,
@@ -47,7 +46,7 @@ class SignUpScreen extends ConsumerWidget {
               ],
             ),
             Form(
-              key: _formKey,
+              key: signUpScreenState.formKey,
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 color: Colors.white,
@@ -196,7 +195,8 @@ class SignUpScreen extends ConsumerWidget {
                     CustomElevatedButton(
                       onPressed: () async {
                         print('signUp clicked');
-                        if (_formKey.currentState!.validate()) {
+                        if (signUpScreenState.formKey.currentState!
+                            .validate()) {
                           ref
                               .read(signUpScreenProvider)
                               .signUp(context: context, ref: ref);

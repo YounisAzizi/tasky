@@ -21,7 +21,6 @@ class SignInScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final completeNumber = SharedPrefs.getCompleteNumber();
     final signInDataState = ref.watch(signInDataProvider);
-    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -32,7 +31,7 @@ class SignInScreen extends ConsumerWidget {
           children: [
             StickerWidget(),
             Form(
-              key: _formKey,
+              key: signInDataState.formKey,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
                 color: Colors.white,
@@ -120,7 +119,7 @@ class SignInScreen extends ConsumerWidget {
                     const SizedBox(height: 20),
                     CustomElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                        if (signInDataState.formKey.currentState!.validate()) {
                           await ref.read(signInDataProvider).signIn(
                                 phone: completeNumber,
                                 context: context,
