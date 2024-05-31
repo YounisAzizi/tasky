@@ -9,17 +9,12 @@ class Styles {
     fontSize: 14,
     color: Colors.grey,
   );
-  static const fadeTextStyle = TextStyle(
-      fontSize: 16,
-      color: Colors.grey
-  );
+  static const fadeTextStyle = TextStyle(fontSize: 16, color: Colors.grey);
   static const linkStyle = TextStyle(
       decoration: TextDecoration.underline,
       fontSize: 18,
       color: AppColors.mainThemColor,
-      fontWeight: FontWeight.w500
-
-  );
+      fontWeight: FontWeight.w500);
   static const noItemStyle = TextStyle(
     fontSize: 24,
     fontWeight: _defaultWeight,
@@ -35,12 +30,12 @@ class Styles {
   static const titleStyle = TextStyle(
       color: AppColors.backgroundDark,
       fontWeight: FontWeight.bold,
-      overflow:TextOverflow.ellipsis,
+      overflow: TextOverflow.ellipsis,
       fontSize: 20);
   static const mainTitleStyle = TextStyle(
       color: AppColors.backgroundDark,
       fontWeight: FontWeight.w700,
-      overflow:TextOverflow.ellipsis,
+      overflow: TextOverflow.ellipsis,
       fontSize: 24);
   static const profileSubTitle = TextStyle(
       color: Color.fromRGBO(47, 47, 47, 0.6),
@@ -147,7 +142,7 @@ class Styles {
   static TextStyle hintStyle(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color =
-    isDark ? AppColors.hintTextFieldDark : AppColors.hintTextFieldLight;
+        isDark ? AppColors.hintTextFieldDark : AppColors.hintTextFieldLight;
     return _hintText.copyWith(
       color: color,
     );
@@ -163,7 +158,7 @@ class Styles {
   static TextStyle tableHeader(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color =
-    isDark ? AppColors.headerTableTextDark : AppColors.headerTableTextLight;
+        isDark ? AppColors.headerTableTextDark : AppColors.headerTableTextLight;
     return w600_16.copyWith(
       color: color,
     );
@@ -188,7 +183,7 @@ class Styles {
   static TextStyle evaluationStyle(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color =
-    isDark ? AppColors.evaluationTextDark : AppColors.evaluationTextLight;
+        isDark ? AppColors.evaluationTextDark : AppColors.evaluationTextLight;
     return _w500_18.copyWith(
       color: color,
     );
@@ -203,24 +198,24 @@ class Styles {
   }
 
   static TextStyle headline12(BuildContext context) => _w400_16.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline11(BuildContext context) => _w500_18.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline10(BuildContext context) => w400_14.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline9(BuildContext context) => _w500_14.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline8(BuildContext context) => w600_14.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline7withoverflow(BuildContext context) =>
       w500_16.copyWith(
@@ -229,32 +224,32 @@ class Styles {
       );
 
   static TextStyle headline7(BuildContext context) => w500_16.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline6(BuildContext context) => w600_16.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline5(BuildContext context) => w600_18.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline4(BuildContext context) => w700_20.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline3(BuildContext context) => _w600_30.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline2(BuildContext context) => _w500_22.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static TextStyle headline1(BuildContext context) => _w600_28.copyWith(
-    color: _defaultColor(context),
-  );
+        color: _defaultColor(context),
+      );
 
   static Color _defaultColor(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
