@@ -6,7 +6,7 @@ class UserModel {
   final String address;
   final String level;
 
-  UserModel({
+  const UserModel({
     required this.phoneNumber,
     required this.password,
     required this.name,
@@ -15,27 +15,21 @@ class UserModel {
     required this.level,
   });
 
-  // Factory method to create a UserModel from JSON
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      phoneNumber: json['phoneNumber'],
-      password: json['password'],
-      name: json['name'],
-      experienceYears: json['experienceYears'],
-      address: json['address'],
-      level: json['level'],
-    );
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        phoneNumber: json['phoneNumber'],
+        password: json['password'],
+        name: json['name'],
+        experienceYears: json['experienceYears'],
+        address: json['address'],
+        level: json['level'],
+      );
 
-  // Method to convert a UserModel to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'phoneNumber': phoneNumber,
-      'password': password,
-      'name': name,
-      'experienceYears': experienceYears,
-      'address': address,
-      'level': level,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'phoneNumber': phoneNumber,
+        'password': password,
+        'name': name,
+        'experienceYears': experienceYears,
+        'address': address,
+        'level': level,
+      };
 }
