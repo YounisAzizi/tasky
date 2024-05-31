@@ -27,7 +27,7 @@ class TaskDetailsDataProvider extends ChangeNotifier {
       final response = await Api.delete(
         url: url,
         headers: {
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
         },
       );
       ref.read(loadingProvider).hideLoading();

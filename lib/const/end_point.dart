@@ -11,7 +11,7 @@ class Apis {
   static const deleteTodo = '${_basic}todos/';
   static const uploadImage = '${_basic}upload/image';
   // Check why we need it
-  static const fetchTodos = '${_basic}todos?page=1';
+  static const fetchTodos = '${_basic}todos?page=';
   static const refreshToken = '${_basic}auth/refresh-token?token=';
   static const getOneTodo = '${_basic}todos/';
 }

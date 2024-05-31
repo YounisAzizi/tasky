@@ -1,19 +1,21 @@
+import 'package:Tasky/models/level_enum.dart';
+
 const defaultSignUp = SignUpModel(
   phone: '',
   password: '',
   displayName: '',
-  experienceYears: '',
+  experienceYears: null,
   address: '',
-  level: '',
+  level: LevelEnum.junior,
 );
 
 class SignUpModel {
   final String phone;
   final String password;
   final String displayName;
-  final String experienceYears;
+  final int? experienceYears;
   final String address;
-  final String level;
+  final LevelEnum level;
 
   const SignUpModel({
     required this.phone,
@@ -30,7 +32,7 @@ class SignUpModel {
         displayName: json['displayName'],
         experienceYears: json['experienceYears'],
         address: json['address'],
-        level: json['level'],
+        level: LevelEnum.fromString(json['level']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,16 +41,16 @@ class SignUpModel {
         'displayName': displayName,
         'experienceYears': experienceYears,
         'address': address,
-        'level': level,
+        'level': level.name,
       };
 
   SignUpModel copyWith({
     String? phone,
     String? password,
     String? displayName,
-    String? experienceYears,
+    int? experienceYears,
     String? address,
-    String? level,
+    LevelEnum? level,
   }) {
     return SignUpModel(
       phone: phone ?? this.phone,

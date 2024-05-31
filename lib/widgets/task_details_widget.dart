@@ -56,7 +56,7 @@ class TaskDetailsWidget extends ConsumerWidget {
                   color: AppColors.mainThemColor,
                 ),
                 Text(
-                  '${todoDetails.priority} priority',
+                  '${todoDetails.priority.name} priority',
                   style: TextStyle(
                     color: AppColors.mainThemColor,
                     fontSize: 16,

@@ -26,13 +26,6 @@ class SignUpScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  LevelEnum? _selectedLevel;
-  LevelEnum? get selectedLevel => _selectedLevel;
-  set selectedLevel(LevelEnum? level) {
-    _selectedLevel = level;
-    notifyListeners();
-  }
-
   List<LevelEnum> _levels = LevelEnum.values;
   List<LevelEnum> get levels => _levels;
   set Levels(List<LevelEnum> newLevels) {
@@ -44,7 +37,7 @@ class SignUpScreenProvider extends ChangeNotifier {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    if (defaultSignUp.isEqual(_signUpModel)) {
+    if (!defaultSignUp.isEqual(_signUpModel)) {
       try {
         ref.read(loadingProvider).showLoading();
         Utils.showLoadingDialog(context, 'SigningUp');
@@ -63,24 +56,17 @@ class SignUpScreenProvider extends ChangeNotifier {
           final id = responseBody['_id'] as String?;
           final refreshToken = responseBody['refresh_token'] as String?;
 
-          SharedPrefs.setStoreToken(accessToken!);
-          SharedPrefs.setStoreId(id!);
-          SharedPrefs.setStoreRefreshToken(refreshToken!);
-          SharedPrefs.setIsUserLoggedIn(true);
+          await SharedPrefs.setStoreToken(accessToken!);
+          await SharedPrefs.setStoreId(id!);
+          await SharedPrefs.setStoreRefreshToken(refreshToken!);
+          await SharedPrefs.setIsUserLoggedIn(true);
           context.go(Routes.mainScreen);
-        } else if (response.statusCode == 422) {
-          Utils.showSnackBar(context, 'رقم الهاتف مستخدم بالفعل');
         } else {
-          print('failed');
-          print('Status code: ${response.statusCode}');
-          print('Response body: ${response.body}');
+          Utils.showSnackBar(context, jsonDecode(response.body)['message']);
         }
       } catch (e) {
         print('Error: $e');
       }
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('fill the textFields')));
     }
   }
 }

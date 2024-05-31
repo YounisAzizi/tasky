@@ -50,6 +50,7 @@ class SignInScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 30),
                     PhoneFormField(
+                      initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ''),
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

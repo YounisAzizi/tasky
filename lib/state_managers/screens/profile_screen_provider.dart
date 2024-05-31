@@ -34,7 +34,7 @@ class UserDataNotifier extends ChangeNotifier {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
         },
       );
       ref.read(loadingProvider).hideLoading();

@@ -8,7 +8,7 @@ const defaultTaskModel = TaskModel(
   desc: '',
   priority: PrioritiesEnum.medium,
   status: UiStatus.waiting,
-  // dueDate: '',
+  userId: '',
   createdAt: '',
 );
 
@@ -19,7 +19,7 @@ class TaskModel {
   final String desc;
   final PrioritiesEnum priority;
   final UiStatus status;
-  // final String dueDate;
+  final String userId;
   final String createdAt;
 
   const TaskModel({
@@ -29,19 +29,19 @@ class TaskModel {
     required this.desc,
     required this.priority,
     required this.status,
-    // required this.dueDate,
+    required this.userId,
     required this.createdAt,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
-        id: json['id'],
-        image: json['image'],
-        title: json['title'],
-        desc: json['desc'],
+        id: json['id'] ?? '',
+        image: json['image'] ?? '',
+        title: json['title'] ?? '',
+        desc: json['desc'] ?? '',
         priority: PrioritiesEnum.fromString(json['priority'] ?? ''),
         status: UiStatus.fromString(json['status'] ?? ''),
-        // dueDate: json['dueDate'],
-        createdAt: json['createdAt'],
+        userId: json['user'] ?? '',
+        createdAt: json['createdAt'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,7 +50,7 @@ class TaskModel {
         'title': title,
         'desc': desc,
         'priority': priority.name,
-        // 'dueDate': dueDate,
+        'user': userId,
         'status': status.name,
         'createdAt': createdAt,
       };
@@ -62,7 +62,7 @@ class TaskModel {
     String? desc,
     PrioritiesEnum? priority,
     UiStatus? status,
-    String? dueDate,
+    String? user,
     String? createdAt,
   }) {
     return TaskModel(
@@ -72,7 +72,7 @@ class TaskModel {
       desc: desc ?? this.desc,
       priority: priority ?? this.priority,
       status: status ?? this.status,
-      // dueDate: dueDate ?? this.dueDate,
+      userId: user ?? this.userId,
       createdAt: createdAt ?? this.createdAt,
     );
   }

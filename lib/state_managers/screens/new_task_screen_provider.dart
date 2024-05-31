@@ -44,8 +44,8 @@ class NewTaskScreenProvider extends ChangeNotifier {
   }
 
   List<UiStatus> _statuses = [
-    UiStatus.waiting,
     UiStatus.inprogress,
+    UiStatus.waiting,
     UiStatus.finished,
   ];
   List<UiStatus> get statuses => _statuses;
@@ -93,7 +93,7 @@ class NewTaskScreenProvider extends ChangeNotifier {
       final response = await Api.put(
         url: '${Apis.editTodo}${taskModel.id}',
         headers: {
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
           'Content-Type': 'application/json',
         },
         body: taskModel.toJson(),
@@ -129,7 +129,7 @@ class NewTaskScreenProvider extends ChangeNotifier {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}',
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}',
         },
         data: taskModel.toJson(),
       );

@@ -2,6 +2,7 @@ import 'package:Tasky/const/const.dart';
 import 'package:Tasky/models/priorities_enum.dart';
 import 'package:Tasky/models/status_enum.dart';
 import 'package:Tasky/models/ui_status_enum.dart';
+import 'package:Tasky/screens/main_screen.dart';
 import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,12 @@ class TaskListView extends ConsumerWidget {
               itemCount: todoDetails.length,
               itemBuilder: (context, index) {
                 final task = todoDetails[index];
+                print('younis');
+                print(selectedStatus);
+                print(task.status);
                 if (selectedStatus == Status.all ||
-                    task.status == selectedStatus) {
+                    task.status == statusToString(selectedStatus)) {
+
                   return InkWell(
                     onTap: () {
                       context.go("${Routes.taskDetails}${task}");

@@ -9,6 +9,8 @@ import 'package:Tasky/screens/task_details_screen.dart';
 import 'package:Tasky/widgets/splash_wrapper_widget.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/qr_scanner_screen.dart';
+
 class AppRouter {
   static GoRouter createRouter() => GoRouter(
         initialLocation: Routes.splashWrapper,
@@ -58,6 +60,12 @@ class AppRouter {
               return const ProfileScreen();
             },
           ),
+          GoRoute(
+              path: Routes.qrScanner,
+              builder: (context, state) {
+                return   QrScannerScreen();
+              }),
+
         ],
       );
 }

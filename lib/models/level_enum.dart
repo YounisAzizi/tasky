@@ -13,7 +13,7 @@ enum LevelEnum {
 
   static LevelEnum fromString(String name) {
     return values.firstWhere(
-      (newName) => newName == name,
+      (newName) => newName.name == name,
       orElse: () => throw ArgumentError('Invalid value: $name'),
     );
   }

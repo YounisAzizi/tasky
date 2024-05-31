@@ -72,7 +72,7 @@ class CustomDatePicker extends ConsumerWidget {
     );
     if (picked != null && picked != ref.watch(newTaskScreenProvider)) {
       final newTaskModel =
-          ref.read(newTaskDataProvider).taskModel.copyWith(dueDate: '$picked');
+          ref.read(newTaskDataProvider).taskModel.copyWith(user: '$picked');
 
       ref.read(newTaskDataProvider).taskModel = newTaskModel;
     }

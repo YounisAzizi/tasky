@@ -73,6 +73,7 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     PhoneFormField(
+                      initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ''),
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -120,16 +121,18 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     TextFormFieldWidget(
+                      text: '${signUpModel.experienceYears ?? ''}',
                       hintText: 'Years of experience...',
-                      text: '${signUpModel.experienceYears}',
                       textInputType: TextInputType.number,
                       onChanged: (yearsOfExperience) {
-                        final newSignUpModel = signUpModel.copyWith(
-                          experienceYears: yearsOfExperience,
-                        );
+                        if (yearsOfExperience.isNotEmpty) {
+                          final newSignUpModel = signUpModel.copyWith(
+                            experienceYears: int.parse(yearsOfExperience),
+                          );
 
-                        ref.read(signUpScreenProvider).signUpModel =
-                            newSignUpModel;
+                          ref.read(signUpScreenProvider).signUpModel =
+                              newSignUpModel;
+                        }
                       },
                       validator: (yearsExperience) {
                         if (yearsExperience == null ||

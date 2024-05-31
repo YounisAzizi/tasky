@@ -54,9 +54,9 @@ class AuthServices {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${SharedPrefs.getStoreRefreshToken()}'
+          'Authorization': 'Bearer ${SharedPrefs.getStoreToken()}'
         },
-        data: {"token": SharedPrefs.getStoreRefreshToken()},
+        data: {"token": SharedPrefs.getStoreToken()},
       );
 
       ref.read(loadingProvider).hideLoading();
