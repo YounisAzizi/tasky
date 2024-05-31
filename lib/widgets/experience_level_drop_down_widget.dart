@@ -10,9 +10,10 @@ class ExperienceLevelDropDownWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final signUpScreenState = ref.watch(signUpScreenProvider);
+
     return Container(
-      width: Utils.screenWidth(context),
       height: 50,
+      width: Utils.screenWidth(context),
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromRGBO(186, 186, 186, 1), width: 1.0),
         borderRadius: BorderRadius.circular(8.0),
@@ -21,11 +22,12 @@ class ExperienceLevelDropDownWidget extends ConsumerWidget {
         underline: SizedBox(),
         padding: EdgeInsets.only(left: 20),
         hint: const Text(
-          'Choose experience level',
+          ' Choose experience level',
           style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(47, 47, 47, 1)),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(47, 47, 47, 1),
+          ),
         ),
         value: signUpScreenState.selectedLevel,
         onChanged: (newValue) {
@@ -44,19 +46,11 @@ class ExperienceLevelDropDownWidget extends ConsumerWidget {
             ),
           );
         }).toList(),
-        icon: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: Utils.screenWidth(context) * 0.34,
-            ),
-            Icon(
-              Icons.keyboard_arrow_down_outlined,
-              size: 32,
-              color: Color.fromRGBO(127, 127, 127, 1).withOpacity(0.8),
-            ),
-          ],
+        isExpanded: true,
+        icon: Icon(
+          Icons.keyboard_arrow_down_outlined,
+          size: 32,
+          color: Color.fromRGBO(127, 127, 127, 1).withOpacity(0.8),
         ),
       ),
     );

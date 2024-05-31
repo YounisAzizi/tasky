@@ -43,7 +43,6 @@ class _AddNewTaskScreenState extends ConsumerState<AddNewTaskScreen> {
     final isEditing = ref.watch(newTaskScreenProvider).isEditing;
     final newTaskDataState = ref.watch(newTaskDataProvider);
     final taskModel = newTaskDataState.taskModel;
-    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -86,7 +85,7 @@ class _AddNewTaskScreenState extends ConsumerState<AddNewTaskScreen> {
               ),
               SizedBox(height: 30),
               Form(
-                key: _formKey,
+                key: newTaskDataState.formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +179,7 @@ class _AddNewTaskScreenState extends ConsumerState<AddNewTaskScreen> {
                     const SizedBox(height: 28),
                     CustomElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (newTaskDataState.formKey.currentState!.validate()) {
                           ref.read(newTaskScreenProvider).onSavedTask(
                                 taskModel: taskModel,
                                 ref: ref,

@@ -15,6 +15,8 @@ final signInDataProvider = ChangeNotifierProvider<SignInDataProvider>(
 );
 
 class SignInDataProvider extends ChangeNotifier {
+  final formKey = GlobalKey<FormState>();
+
   String _password = '';
   String get password => _password;
   set password(String password) {

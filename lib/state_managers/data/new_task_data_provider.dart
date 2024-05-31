@@ -7,6 +7,8 @@ final newTaskDataProvider = ChangeNotifierProvider<NewTaskDataProvider>(
 );
 
 class NewTaskDataProvider extends ChangeNotifier {
+  final formKey = GlobalKey<FormState>();
+
   TaskModel _taskModel = defaultTaskModel;
   TaskModel get taskModel => _taskModel;
   set taskModel(TaskModel taskModel) {

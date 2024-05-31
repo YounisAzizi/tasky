@@ -17,6 +17,8 @@ final signUpScreenProvider = ChangeNotifierProvider<SignUpScreenProvider>(
 );
 
 class SignUpScreenProvider extends ChangeNotifier {
+  final formKey = GlobalKey<FormState>();
+
   SignUpModel _signUpModel = defaultSignUp;
   SignUpModel get signUpModel => _signUpModel;
   set signUpModel(SignUpModel signUpModel) {
