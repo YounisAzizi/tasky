@@ -120,12 +120,12 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     TextFormFieldWidget(
-                      text: '${signUpModel.experienceYears}',
                       hintText: 'Years of experience...',
+                      text: '${signUpModel.experienceYears}',
                       textInputType: TextInputType.number,
                       onChanged: (yearsOfExperience) {
                         final newSignUpModel = signUpModel.copyWith(
-                          experienceYears: int.parse(yearsOfExperience),
+                          experienceYears: yearsOfExperience,
                         );
 
                         ref.read(signUpScreenProvider).signUpModel =
@@ -162,7 +162,7 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormFieldWidget(
-                      text: '${signUpModel.address}',
+                      text: '${signUpModel.password}',
                       hintText: 'Password...',
                       obscureText: ref.watch(passwordBoolProvider).beSecure,
                       suffixIcon: IconButton(

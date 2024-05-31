@@ -35,7 +35,6 @@ class SignInScreen extends ConsumerWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
                 color: Colors.white,
-                height: Utils.screenHeight(context) / 2.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

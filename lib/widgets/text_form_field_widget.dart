@@ -102,12 +102,6 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
               suffixIcon: widget.suffixIcon,
               prefixIcon: widget.prefix,
               contentPadding: widget.contentPadding,
-              border: widget.border ??
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              enabledBorder: widget.border ??
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              focusedBorder: widget.border ??
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
             ),
         onFieldSubmitted: widget.onFieldSubmitted,
         validator: widget.validator,

@@ -54,6 +54,8 @@ class SignInDataProvider extends ChangeNotifier {
         SharedPrefs.setStoreId(id!);
         SharedPrefs.setStoreRefreshToken(refreshToken!);
         SharedPrefs.setIsUserLoggedIn(true);
+        print(SharedPrefs.getStoreToken());
+        print('SharedPrefs.getStoreToken() sign in');
         context.go(Routes.mainScreen);
       } else if (response.statusCode == 401) {
         Utils.showSnackBar(context, 'يوجد خطأ في رقم الهاتف أو كلمة المرور');

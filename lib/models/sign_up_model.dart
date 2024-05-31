@@ -2,7 +2,7 @@ const defaultSignUp = SignUpModel(
   phone: '',
   password: '',
   displayName: '',
-  experienceYears: 0,
+  experienceYears: '',
   address: '',
   level: '',
 );
@@ -11,7 +11,7 @@ class SignUpModel {
   final String phone;
   final String password;
   final String displayName;
-  final int experienceYears;
+  final String experienceYears;
   final String address;
   final String level;
 
@@ -46,7 +46,7 @@ class SignUpModel {
     String? phone,
     String? password,
     String? displayName,
-    int? experienceYears,
+    String? experienceYears,
     String? address,
     String? level,
   }) {

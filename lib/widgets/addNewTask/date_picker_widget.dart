@@ -46,7 +46,7 @@ class CustomDatePicker extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    isEditing ? '${taskModel.dueDate}' : 'choose due date',
+                    isEditing ? '' : 'choose due date',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),

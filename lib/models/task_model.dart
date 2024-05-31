@@ -8,7 +8,7 @@ const defaultTaskModel = TaskModel(
   desc: '',
   priority: PrioritiesEnum.medium,
   status: UiStatus.waiting,
-  dueDate: '',
+  // dueDate: '',
   createdAt: '',
 );
 
@@ -19,7 +19,7 @@ class TaskModel {
   final String desc;
   final PrioritiesEnum priority;
   final UiStatus status;
-  final String dueDate;
+  // final String dueDate;
   final String createdAt;
 
   const TaskModel({
@@ -29,7 +29,7 @@ class TaskModel {
     required this.desc,
     required this.priority,
     required this.status,
-    required this.dueDate,
+    // required this.dueDate,
     required this.createdAt,
   });
 
@@ -40,7 +40,7 @@ class TaskModel {
         desc: json['desc'],
         priority: PrioritiesEnum.fromString(json['priority'] ?? ''),
         status: UiStatus.fromString(json['status'] ?? ''),
-        dueDate: json['dueDate'],
+        // dueDate: json['dueDate'],
         createdAt: json['createdAt'],
       );
 
@@ -50,7 +50,7 @@ class TaskModel {
         'title': title,
         'desc': desc,
         'priority': priority.name,
-        'dueDate': dueDate,
+        // 'dueDate': dueDate,
         'status': status.name,
         'createdAt': createdAt,
       };
@@ -72,7 +72,7 @@ class TaskModel {
       desc: desc ?? this.desc,
       priority: priority ?? this.priority,
       status: status ?? this.status,
-      dueDate: dueDate ?? this.dueDate,
+      // dueDate: dueDate ?? this.dueDate,
       createdAt: createdAt ?? this.createdAt,
     );
   }
