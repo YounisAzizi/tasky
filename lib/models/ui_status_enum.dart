@@ -1,4 +1,5 @@
 enum UiStatus {
+  all,
   inprogress,
   waiting,
   finished;

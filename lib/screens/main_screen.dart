@@ -1,5 +1,5 @@
 import 'package:Tasky/const/const.dart';
-import 'package:Tasky/models/status_enum.dart';
+import 'package:Tasky/models/ui_status_enum.dart';
 import 'package:Tasky/routes/routes.dart';
 import 'package:Tasky/services/auth_services.dart';
 import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
@@ -102,9 +102,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: Status.values.map((status) {
+                  children: UiStatus.values.map((status) {
                     return CustomTabBarWidget(
-                      data: statusToString(status),
+                      data: status.name,
                       isSelected: statusNotifier.selectedStatus == status,
                       onTap: () => ref
                           .read(mainScreenProvider)
@@ -160,20 +160,5 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         ),
       ),
     );
-  }
-}
-
-String statusToString(Status status) {
-  switch (status) {
-    case Status.all:
-      return 'All';
-    case Status.inProgress:
-      return 'Inprogress';
-    case Status.waiting:
-      return 'Waiting';
-    case Status.finished:
-      return 'Finished';
-    default:
-      return '';
   }
 }

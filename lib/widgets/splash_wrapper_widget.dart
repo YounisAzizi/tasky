@@ -18,6 +18,7 @@ class _SplashWrapperState extends State<SplashWrapper> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SharedPrefs.init();
+      SharedPrefs.setIsUserLoggedIn(false);
     });
   }
 

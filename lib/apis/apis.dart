@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Tasky/const/end_point.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as p;
 
 class Api {
   static Future<http.Response?> get({
@@ -72,26 +74,28 @@ class Api {
     }
   }
 
-  static Future<String?> uploadImage(File imageFile, String token) async {
+  static Future<void> uploadImage(File imageFile, String token) async {
     try {
-      var request = http.MultipartRequest(
-          'POST', Uri.parse('https://todo.iraqsapp.com/upload/image'));
+      var url = Uri.parse(Apis.uploadImage);
+      var request = http.MultipartRequest('POST', url);
       request.headers['Authorization'] = 'Bearer $token';
-      request.files
-          .add(await http.MultipartFile.fromPath('image', imageFile.path));
-
+      request.files.add(
+        http.MultipartFile(
+          'image',
+          imageFile.readAsBytes().asStream(),
+          imageFile.lengthSync(),
+          filename: p.basename(imageFile.path),
+        ),
+      );
       var response = await request.send();
-
+      var responseBody = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        // Image uploaded successfully, parse response body
-        return await response.stream.bytesToString();
+        print('Image uploaded successfully ${responseBody}');
       } else {
-        print('Failed to upload image. Status code: ${response.statusCode}');
-        return null;
+        print('Failed to upload image: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error uploading image: $e');
-      return null;
+      print('Failed to upload image: ${e}');
     }
   }
 }

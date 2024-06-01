@@ -8,7 +8,6 @@ const defaultTaskModel = TaskModel(
   desc: '',
   priority: PrioritiesEnum.medium,
   status: UiStatus.waiting,
-  dueDate: '',
   createdAt: '',
 );
 
@@ -19,7 +18,7 @@ class TaskModel {
   final String desc;
   final PrioritiesEnum priority;
   final UiStatus status;
-  final String dueDate;
+  final String? dueDate;
   final String createdAt;
 
   const TaskModel({
@@ -29,7 +28,7 @@ class TaskModel {
     required this.desc,
     required this.priority,
     required this.status,
-    required this.dueDate,
+    this.dueDate,
     required this.createdAt,
   });
 

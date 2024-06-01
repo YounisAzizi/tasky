@@ -31,7 +31,17 @@ class CustomDatePicker extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () async {
-            await _selectDate(context, ref);
+            final DateTime? picked = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (picked != null && picked != ref.watch(newTaskScreenProvider)) {
+              final newTaskModel = taskModel.copyWith(dueDate: '$picked');
+
+              ref.read(newTaskDataProvider).taskModel = newTaskModel;
+            }
           },
           child: Container(
             height: 50,
@@ -46,7 +56,9 @@ class CustomDatePicker extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    isEditing ? '${taskModel.dueDate}' : 'choose due date',
+                    (taskModel.dueDate == null || taskModel.dueDate!.isEmpty)
+                        ? 'choose due date'
+                        : '${taskModel.dueDate}',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -61,20 +73,5 @@ class CustomDatePicker extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _selectDate(BuildContext context, WidgetRef ref) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != ref.watch(newTaskScreenProvider)) {
-      final newTaskModel =
-          ref.read(newTaskDataProvider).taskModel.copyWith(dueDate: '$picked');
-
-      ref.read(newTaskDataProvider).taskModel = newTaskModel;
-    }
   }
 }
