@@ -178,9 +178,9 @@ class _AddNewTaskScreenState extends ConsumerState<AddNewTaskScreen> {
                     CustomDatePicker(),
                     const SizedBox(height: 28),
                     CustomElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (newTaskDataState.formKey.currentState!.validate()) {
-                          ref.read(newTaskScreenProvider).onSavedTask(
+                          await ref.read(newTaskScreenProvider).onSavedTask(
                                 taskModel: taskModel,
                                 ref: ref,
                                 context: context,

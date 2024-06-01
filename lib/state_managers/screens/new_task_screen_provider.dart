@@ -66,19 +66,43 @@ class NewTaskScreenProvider extends ChangeNotifier {
     required WidgetRef ref,
     required BuildContext context,
   }) async {
+    debugPrint('Mahdi: onSavedTask: 2: $_imageFile');
+    debugPrint('Mahdi: onSavedTask: 3: ${SharedPrefs.getStoreToken()}');
+    if (_imageFile != null) {
+      ref.read(loadingProvider).showLoading();
+      Utils.showLoadingDialog(context, 'Uploading image');
+
+      await Api.uploadImage(
+        _imageFile!,
+        SharedPrefs.getStoreToken() ?? '',
+      );
+
+      ref.read(loadingProvider).hideLoading();
+      Utils.hideLoadingDialog(context);
+    }
     if (isEditing) {
+      ref.read(loadingProvider).showLoading();
+      Utils.showLoadingDialog(context, 'Editing todo');
+
       await editTodoById(
         ref: ref,
         context: context,
         taskModel: taskModel,
       );
     } else {
+      ref.read(loadingProvider).showLoading();
+      Utils.showLoadingDialog(context, 'Adding todo');
+
       await addTodo(
         context: context,
         ref: ref,
         taskModel: taskModel,
       );
     }
+
+    ref.read(loadingProvider).hideLoading();
+    Utils.hideLoadingDialog(context);
+    _imageFile = null;
   }
 
   static Future<void> editTodoById({
@@ -87,9 +111,6 @@ class NewTaskScreenProvider extends ChangeNotifier {
     required BuildContext context,
   }) async {
     try {
-      ref.read(loadingProvider).showLoading();
-      Utils.showLoadingDialog(context, 'Editing todo');
-
       final response = await Api.put(
         url: '${Apis.editTodo}${taskModel.id}',
         headers: {
@@ -98,9 +119,6 @@ class NewTaskScreenProvider extends ChangeNotifier {
         },
         body: taskModel.toJson(),
       );
-      ref.read(loadingProvider).hideLoading();
-      Utils.hideLoadingDialog(context);
-
       if (response == null) {
         Utils.showSnackBar(context, 'Something went wrong!');
       } else if (response.statusCode == 200) {

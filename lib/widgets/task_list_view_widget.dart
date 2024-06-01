@@ -1,8 +1,6 @@
 import 'package:Tasky/const/const.dart';
 import 'package:Tasky/models/priorities_enum.dart';
-import 'package:Tasky/models/status_enum.dart';
 import 'package:Tasky/models/ui_status_enum.dart';
-import 'package:Tasky/screens/main_screen.dart';
 import 'package:Tasky/state_managers/screens/main_screen_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,7 @@ import '../../routes/routes.dart';
 import '../../theme/colors.dart';
 
 class TaskListView extends ConsumerWidget {
-  final Status status;
+  final UiStatus status;
 
   const TaskListView({super.key, required this.status});
 
@@ -46,12 +44,9 @@ class TaskListView extends ConsumerWidget {
               itemCount: todoDetails.length,
               itemBuilder: (context, index) {
                 final task = todoDetails[index];
-                print('younis');
-                print(selectedStatus);
-                print(task.status);
-                if (selectedStatus == Status.all ||
-                    task.status == statusToString(selectedStatus)) {
 
+                if (selectedStatus == UiStatus.all ||
+                    task.status == selectedStatus) {
                   return InkWell(
                     onTap: () {
                       context.go("${Routes.taskDetails}${task}");

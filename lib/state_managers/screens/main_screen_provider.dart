@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:Tasky/apis/apis.dart';
 import 'package:Tasky/const/end_point.dart';
-import 'package:Tasky/models/status_enum.dart';
 import 'package:Tasky/models/task_model.dart';
+import 'package:Tasky/models/ui_status_enum.dart';
 import 'package:Tasky/state_managers/screens/loading_notifier_riv.dart';
 import 'package:Tasky/utils/shared_prefs.dart';
 import 'package:Tasky/utils/utils.dart';
@@ -14,9 +14,9 @@ final mainScreenProvider =
     ChangeNotifierProvider<MainScreenProvider>((ref) => MainScreenProvider());
 
 class MainScreenProvider extends ChangeNotifier {
-  Status _selectedStatus = Status.all;
-  Status get selectedStatus => _selectedStatus;
-  void setSelectedStatus(Status status) {
+  UiStatus _selectedStatus = UiStatus.all;
+  UiStatus get selectedStatus => _selectedStatus;
+  void setSelectedStatus(UiStatus status) {
     _selectedStatus = status;
     notifyListeners();
   }
