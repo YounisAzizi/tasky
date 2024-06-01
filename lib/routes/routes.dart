@@ -7,4 +7,7 @@ class Routes {
   static const addNewTaskScreen = '/add_new_task_screen/:index';
   static const profileScreen = '/profile_screen';
   static const test = '/test';
+  static const qrScanner = '/qr_scanner';
+
+
 }

@@ -63,9 +63,9 @@ class MainScreenProvider extends ChangeNotifier {
             serverItems.map((todo) => TaskModel.fromJson(todo)).toList();
 
         _todos = newTodos;
-        _todos.forEach((todo) {
-          debugPrint('Mahdi: fetchListTodos: 2: $todo');
-        });
+
+          debugPrint('Mahdi: fetchListTodos: 2: ${_todos}');
+
         debugPrint('Mahdi: fetchListTodos: 3: ${SharedPrefs.getStoreToken()}');
         debugPrint('Mahdi: fetchListTodos: 4: ${SharedPrefs.getStoreToken()}');
         notifyListeners();

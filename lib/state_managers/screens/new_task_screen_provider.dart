@@ -44,8 +44,8 @@ class NewTaskScreenProvider extends ChangeNotifier {
   }
 
   List<UiStatus> _statuses = [
-    UiStatus.waiting,
     UiStatus.inprogress,
+    UiStatus.waiting,
     UiStatus.finished,
   ];
   List<UiStatus> get statuses => _statuses;

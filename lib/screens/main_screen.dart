@@ -122,13 +122,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           Positioned(
             bottom: 100,
             right: 25,
-            child: CircleAvatar(
-              backgroundColor: Color.fromRGBO(235, 229, 255, 1),
-              radius: 24,
-              child: Icon(
-                Icons.qr_code_rounded,
-                color: AppColors.mainThemColor,
-                size: 24,
+            child: InkWell(
+              onTap: () {
+                context.go(Routes.qrScanner);
+              },
+              child: CircleAvatar(
+                backgroundColor: Color.fromRGBO(235, 229, 255, 1),
+                radius: 24,
+                child: Icon(
+                  Icons.qr_code_rounded,
+                  color: AppColors.mainThemColor,
+                  size: 24,
+                ),
               ),
             ),
           ),
